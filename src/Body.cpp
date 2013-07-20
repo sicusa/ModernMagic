@@ -12,14 +12,14 @@ MM_BEGIN
 
 Body::Body():
 	_texture(-1), _layer(0),
-	_radius(0.0f), _angle(0.0f), _speed(0.0f),
+	_radius(0.0f), _angle(0.0f), _radian(0.0f), _speed(0.0f),
 	_angleAddition(0.0f), _speedAddition(0.0f),
 	_isFrozen(false),
 	_destroyWhenMoveOffScreen(true),
 	_destroyWhenTimelineEnd(false),
 	_appliedTimeline(nullptr),
 	_isNeedToCal(false),
-	_isReboundable(true), _opacity(1.0f)
+	_isBullet(true), _opacity(1.0f)
 {
 	this->InitProperties();
 }
@@ -29,13 +29,13 @@ Body::Body(const Body &other):
 	_position(other._position),
 	_texture(other._texture),
 	_color(other._color), _layer(other._layer),
-	_radius(other._radius), _angle(other._angle), _speed(other._speed),
+	_radius(other._radius), _angle(other._angle), _radian(other._radian), _speed(other._speed),
 	_angleAddition(other._angleAddition), _speedAddition(other._speedAddition),
 	_isFrozen(other._isFrozen), 
 	_destroyWhenMoveOffScreen(other._destroyWhenMoveOffScreen),
 	_destroyWhenTimelineEnd(other._destroyWhenTimelineEnd),
 	_appliedTimeline(nullptr),
-	_isReboundable(other._isReboundable),
+	_isBullet(other._isBullet),
 	_calculatedOffset(other._calculatedOffset),
 	_isNeedToCal(other._isNeedToCal), _opacity(other._opacity)
 
@@ -60,7 +60,7 @@ void Body::InitProperties()
 	this->RegisterProperty("IsDestroyWhenMoveOffScreen", &_destroyWhenMoveOffScreen);
 	this->RegisterProperty("IsDestroyWhenTimelineEnd", &_destroyWhenTimelineEnd);
 
-	this->RegisterProperty("IsReboundable", &_isReboundable,
+	this->RegisterProperty("IsBullet", &_isBullet,
 						   PropertyPermission::Readonly);
 	this->RegisterProperty("CalculatedOffset", &_calculatedOffset,
 						   PropertyPermission::Readonly);
@@ -118,14 +118,14 @@ void Body::SetAngle(float v)
 	while (_angle >= 360.0f) {
 		_angle -= 360.0f;
 	}
+	_radian = _angle * MathUtil::Pi / 180.0f;
 	_isNeedToCal = true;
 }
 
 void Body::Calculate()
 {
-	float tmp = _angle * MathUtil::Pi / 180.0f;
-	_calculatedOffset.X = _speed * sin(tmp);
-	_calculatedOffset.Y = -_speed * cos(tmp);
+	_calculatedOffset.X = _speed * sin(_radian);
+	_calculatedOffset.Y = -_speed * cos(_radian);
 }
 
 bool Body::OnInstalling()

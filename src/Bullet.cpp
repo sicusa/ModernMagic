@@ -26,6 +26,7 @@ void Bullet::InitProperties()
 		"Type",
 		std::bind(&Bullet::SetType, this, std::placeholders::_1)
 	);
+	this->RegisterProperty("RenderRadius", &_renderRadius);
 }
 
 MM_IMPL_CLONE(Bullet)

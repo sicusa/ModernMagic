@@ -51,6 +51,8 @@ private:
 	fuiResProviderImpl tProvider;
 	fcyRefPointer<fuiPage> m_pRootUIPage;
 
+	Bullet *m_role;
+
 	fuiLabel *m_label;
 
 	bool m_paused;
@@ -163,9 +165,16 @@ protected: // ÒýÇæÏûÏ¢
 			auto body = static_cast<Body*>(each);
 			auto &pos = body->GetPosition();
 			auto &color = body->GetColor();
-
+			
 			m_sprite->SetColor(fcyColor(body->GetOpacity(), color.R, color.G, color.B));
-			m_sprite->Draw(m_pGraph2D, *reinterpret_cast<const fcyVec2*>(&pos));
+
+			fcyVec2 scale(1.0f, 1.0f);
+
+			if (body->IsBullet()) {
+				auto rr = static_cast<Bullet*>(body)->GetRenderRadius();
+				scale.x = scale.y = rr;
+			}
+			m_sprite->Draw(m_pGraph2D, *reinterpret_cast<const fcyVec2*>(&pos), scale, body->GetRadian());
 		}
 
 		m_pGraph2D->End();
@@ -179,6 +188,9 @@ public:
 	{
 		m_paused = false;
 
+		m_role = theMMBodyUpdater.Add(new Bullet());
+		m_role->SetPosition(512.f, 384.f);
+
 		auto emitter = theMMActionUpdater.Add(new AnnularEmitter());
 
 		auto probody = Object::MakeShared(theMMClassFactory.CreateObject<Bullet>("Bullet"));
@@ -187,6 +199,16 @@ public:
 		theMMPropertyHelper.SetPropertyByString(probody.get(), "Color",    "0 0 255");
 		theMMPropertyHelper.SetPropertyByString(probody.get(), "Position", "512 384");
 		theMMPropertyHelper.SetPropertyByString(probody.get(), "Opacity",  "0.5");
+		theMMPropertyHelper.SetPropertyByString(probody.get(), "Radius",   "22");
+		theMMPropertyHelper.SetPropertyByString(probody.get(), "RenderRadius", "1");
+		theMMPropertyHelper.SetPropertyByString(probody.get(), "IsDestoryWhenTimelineEnd", "true");
+
+		auto btl = probody->AppliedTimeline();
+		btl->Add(new ActionSleep(3.5f));
+
+		auto ag = btl->Add(new ActionGroup());
+		ag->Add(new AnimateTo<float>("RenderRadius", 2.0f, 0.5f, IF_ExponentialOut));
+		ag->Add(new AnimateTo<float>("Opacity", 0.0f, 0.5f, IF_ExponentialOut));
 
         emitter->SetPrototype(probody);
         emitter->SetWayNumber(10);
@@ -196,28 +218,17 @@ public:
         auto emitterBodyTL = theMMActionUpdater.Add(new LoopTimeline(-1));
         emitterBodyTL->SetBindingObject(probody.get());
         
-        emitterBodyTL->Add(new AnimateBy<float>(
-            "Angle", -360, 8.0f, IF_Smooth
-        ));
-        emitterBodyTL->Add(new AnimateBy<float>(
-			"Angle", 360, 8.0f, IF_Smooth
-        ));
+        emitterBodyTL->Add(new AnimateBy<float>("Angle", -360, 8.0f, IF_Smooth));
+        emitterBodyTL->Add(new AnimateBy<float>("Angle", 360, 8.0f, IF_Smooth));
 		
 		auto emitterBodyTL2 = theMMActionUpdater.Add(new LoopTimeline(-1));
         emitterBodyTL2->SetBindingObject(probody.get());
 
-		emitterBodyTL2->Add(new AnimateTo<Color>(
-			"Color", Colors::Red, 2.0f, IF_Smooth
-        ));
-		emitterBodyTL2->Add(new AnimateTo<Color>(
-			"Color", Colors::Blue, 2.0f, IF_Smooth
-        ));
-		emitterBodyTL2->Add(new AnimateTo<Color>(
-			"Color", Colors::Green, 2.0f, IF_Smooth
-        ));
+		emitterBodyTL2->Add(new AnimateTo<Color>("Color", Colors::Red, 2.0f, IF_Smooth));
+		emitterBodyTL2->Add(new AnimateTo<Color>("Color", Colors::Blue, 2.0f, IF_Smooth));
+		emitterBodyTL2->Add(new AnimateTo<Color>("Color", Colors::Green, 2.0f, IF_Smooth));
 
-		auto emitter2 = new BodyEmitter();
-		theMMActionUpdater.Add(emitter2);
+		auto emitter2 = theMMActionUpdater.Add(new BodyEmitter());
 
 		emitter2->SetPrototype(probody);
 		emitter2->SetOnBodyCreated([](BodyEmitter *sender, Body *body) {
@@ -231,22 +242,22 @@ public:
 
 			body->SetColor(colors[MathUtil::RandomInt(sizeof(colors) / sizeof(Color))]);
 			body->SetOpacity(MathUtil::RandomFloat(0.8f));
-			body->SetAngle(0);
+			body->SetAngle(MathUtil::RandomFloat(360.0f));
 		});
 		emitter2->SetInterval(0.03f);
         emitter2->SetEmittedNumber(-1);
-
+		/*
 		Segment segs[] = {
-			Segment(0,  0,  1024,  768),
-			Segment( 13,  10,  13, -10),
-			Segment(-13,  10, -13, -10),
-			Segment(-13, -10,  13, -10)
+			Segment(0,  0,  1024,  0),
+			Segment(0,  0,  0, 768),
+			Segment(1024,  768,  1024, 0),
+			Segment(1024,  768,  0, 768)
 		};
 
 		for (auto &each : segs) {
 			ReboundBoard *rb = new ReboundBoard(each);
 			theMMActionUpdater.Add(rb);
-		}
+		}*/
 
 		theMMEngine.SetWorldBox(BoundingBox(Vector2(-50, -50), Vector2(1024+50, 768+50)));
         theMMEngine.Start();

@@ -39,6 +39,17 @@ public:
 	 * 坐标
 	 */
 	MM_PROPERTY_PBR(Vector2, _position, Position)
+
+	void SetPosition(float x, float y) {
+		_position.X = x;
+		_position.Y = y;
+	}
+	void SetX(float x) {
+		_position.X = x;
+	}
+	void SetY(float y) {
+		_position.Y = y;
+	}
 	
 	/**
 	 * 纹理ID
@@ -64,6 +75,11 @@ public:
 	 * 角度
 	 */
 	MM_PROPERTY_PBV_US(float, _angle, Angle)
+
+	/**
+	 * 缓存的弧度
+	 */
+	MM_PROPERTY_PBV_NS(float, _radian, Radian)
 	
 	/**
 	 * 速度
@@ -104,9 +120,9 @@ public:
 	Timeline *AppliedTimeline();
 	
 	/**
-	 * 是否可以被反弹
+	 * Body 是否是子弹
 	 */
-	MM_PROPERTY_BOOL_NS(_isReboundable, IsReboundable);
+	MM_PROPERTY_BOOL_NS(_isBullet, IsBullet);
 	
 	/**
 	 * Body 每秒的坐标偏移
@@ -156,7 +172,7 @@ public:
 	
 protected:
 	virtual bool OnInstalling() override;
-	void SetIsReboundable(bool v) { _isReboundable = v; }
+	void SetIsReboundable(bool v) { _isBullet = v; }
 	
 private:
 	void InitProperties();

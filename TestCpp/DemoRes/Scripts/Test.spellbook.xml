@@ -41,14 +41,30 @@
 
         <!--全局 Actions-->
         <ActionUpdater>
-            <Timeline BindingObject="ProBody">
+            <Timeline BindTo="ProBody">
                 <AnimateBy Property="Angle"
                            To="360"
                            Duration="0.8"
                            Effect="Linear"/>
             </Timeline>
-            
-            <Timeline BindingObject=""/>
+
+            <Timeline BindTo="ProBody">
+                <AnimateTo Property="Color"
+                           To="Red"
+                           Duration="2.0"
+                           Effect="Smooth"
+                           />
+                <AnimateTo Property="Color"
+                           To="Green"
+                           Duration="2.0"
+                           Effect="Smooth"
+                           />
+                <AnimateTo Property="Color"
+                           To="Blue"
+                           Duration="2.0"
+                           Effect="Smooth"
+                           />
+            </Timeline>
         </ActionUpdater>
         
     </Spellcard>

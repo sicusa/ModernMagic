@@ -889,7 +889,7 @@ MM_IMPL_UPDATE(ReboundBoard, dt)
 	for (auto each : theMMBodyUpdater.GetObjects()) {
 		Bullet *bullet = nullptr;
 		
-		if (static_cast<Body*>(each)->IsReboundable())
+		if (static_cast<Body*>(each)->IsBullet())
 			bullet = static_cast<Bullet*>(each);
 		else continue;
 		
