@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="ModernMagic">
+      <UniqueIdentifier>{fa0b4062-6b65-42e9-a518-2e2a10fda7ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ModernMagic\Infrastructure">
+      <UniqueIdentifier>{d892a455-a841-4b07-860a-9a6cfdcb5401}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ModernMagic\Messaging">
+      <UniqueIdentifier>{cd7b41ae-7bbb-4625-89c5-1634dffbf062}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ModernMagic\Util">
+      <UniqueIdentifier>{b800af6b-e537-42ca-b3fb-aaa72ed73517}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ModernMagic\Spellbook">
+      <UniqueIdentifier>{de2d966f-6b09-4601-80fb-fb27d5a4a7fc}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Action.cpp">
+      <Filter>ModernMagic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Body.cpp">
+      <Filter>ModernMagic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Bullet.cpp">
+      <Filter>ModernMagic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Collider.cpp">
+      <Filter>ModernMagic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Engine.cpp">
+      <Filter>ModernMagic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Laser.cpp">
+      <Filter>ModernMagic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Object.cpp">
+      <Filter>ModernMagic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ObjectManager.cpp">
+      <Filter>ModernMagic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Timeline.cpp">
+      <Filter>ModernMagic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Util\FileUtil.cpp">
+      <Filter>ModernMagic\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Util\MathUtil.cpp">
+      <Filter>ModernMagic\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Util\StringUtil.cpp">
+      <Filter>ModernMagic\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Messaging\Message.cpp">
+      <Filter>ModernMagic\Messaging</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Messaging\Switchboard.cpp">
+      <Filter>ModernMagic\Messaging</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Infrastructure\BezierCurve.cpp">
+      <Filter>ModernMagic\Infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Infrastructure\BoundingShapes.cpp">
+      <Filter>ModernMagic\Infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Infrastructure\ClassFactory.cpp">
+      <Filter>ModernMagic\Infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Infrastructure\Color.cpp">
+      <Filter>ModernMagic\Infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Infrastructure\DynamicProperty.cpp">
+      <Filter>ModernMagic\Infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Infrastructure\Exceptions.cpp">
+      <Filter>ModernMagic\Infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Infrastructure\Interval.cpp">
+      <Filter>ModernMagic\Infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Infrastructure\MemoryPool.cpp">
+      <Filter>ModernMagic\Infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Infrastructure\PropertyHelper.cpp">
+      <Filter>ModernMagic\Infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Infrastructure\Ray2.cpp">
+      <Filter>ModernMagic\Infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Infrastructure\Segment.cpp">
+      <Filter>ModernMagic\Infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Infrastructure\Vector2.cpp">
+      <Filter>ModernMagic\Infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Infrastructure\Vector3.cpp">
+      <Filter>ModernMagic\Infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\stdafx.cpp">
+      <Filter>ModernMagic</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\Action.h">
+      <Filter>ModernMagic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Body.h">
+      <Filter>ModernMagic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\BodyTypeManager.h">
+      <Filter>ModernMagic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Bullet.h">
+      <Filter>ModernMagic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Collider.h">
+      <Filter>ModernMagic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Engine.h">
+      <Filter>ModernMagic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Laser.h">
+      <Filter>ModernMagic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ModernMagic.h">
+      <Filter>ModernMagic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Object.h">
+      <Filter>ModernMagic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ObjectManager.h">
+      <Filter>ModernMagic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Timeline.h">
+      <Filter>ModernMagic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Util\FileUtil.h">
+      <Filter>ModernMagic\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Util\MathUtil.h">
+      <Filter>ModernMagic\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Util\StringUtil.h">
+      <Filter>ModernMagic\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Messaging\Message.h">
+      <Filter>ModernMagic\Messaging</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Messaging\Switchboard.h">
+      <Filter>ModernMagic\Messaging</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Infrastructure\BezierCurve.h">
+      <Filter>ModernMagic\Infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Infrastructure\BoundingShapes.h">
+      <Filter>ModernMagic\Infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Infrastructure\ClassFactory.h">
+      <Filter>ModernMagic\Infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Infrastructure\Color.h">
+      <Filter>ModernMagic\Infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Infrastructure\Common.h">
+      <Filter>ModernMagic\Infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Infrastructure\DynamicProperty.h">
+      <Filter>ModernMagic\Infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Infrastructure\Exceptions.h">
+      <Filter>ModernMagic\Infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Infrastructure\Interval.h">
+      <Filter>ModernMagic\Infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Infrastructure\MemoryPool.h">
+      <Filter>ModernMagic\Infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Infrastructure\PropertyHelper.h">
+      <Filter>ModernMagic\Infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Infrastructure\Ray2.h">
+      <Filter>ModernMagic\Infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Infrastructure\Segment.h">
+      <Filter>ModernMagic\Infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Infrastructure\VecStructs.h">
+      <Filter>ModernMagic\Infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Infrastructure\Vector2.h">
+      <Filter>ModernMagic\Infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Infrastructure\Vector3.h">
+      <Filter>ModernMagic\Infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\stdafx.h">
+      <Filter>ModernMagic</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\Action.cpp" />
+    <ClCompile Include="..\src\Body.cpp" />
+    <ClCompile Include="..\src\Bullet.cpp" />
+    <ClCompile Include="..\src\Collider.cpp" />
+    <ClCompile Include="..\src\Engine.cpp" />
+    <ClCompile Include="..\src\Infrastructure\BezierCurve.cpp" />
+    <ClCompile Include="..\src\Infrastructure\BoundingShapes.cpp" />
+    <ClCompile Include="..\src\Infrastructure\ClassFactory.cpp" />
+    <ClCompile Include="..\src\Infrastructure\Color.cpp" />
+    <ClCompile Include="..\src\Infrastructure\DynamicProperty.cpp" />
+    <ClCompile Include="..\src\Infrastructure\Exceptions.cpp" />
+    <ClCompile Include="..\src\Infrastructure\Interval.cpp" />
+    <ClCompile Include="..\src\Infrastructure\MemoryPool.cpp" />
+    <ClCompile Include="..\src\Infrastructure\PropertyHelper.cpp" />
+    <ClCompile Include="..\src\Infrastructure\Ray2.cpp" />
+    <ClCompile Include="..\src\Infrastructure\Segment.cpp" />
+    <ClCompile Include="..\src\Infrastructure\Vector2.cpp" />
+    <ClCompile Include="..\src\Infrastructure\Vector3.cpp" />
+    <ClCompile Include="..\src\Laser.cpp" />
+    <ClCompile Include="..\src\Messaging\Message.cpp" />
+    <ClCompile Include="..\src\Messaging\Switchboard.cpp" />
+    <ClCompile Include="..\src\Object.cpp" />
+    <ClCompile Include="..\src\ObjectManager.cpp" />
+    <ClCompile Include="..\src\stdafx.cpp" />
+    <ClCompile Include="..\src\Timeline.cpp" />
+    <ClCompile Include="..\src\Util\FileUtil.cpp" />
+    <ClCompile Include="..\src\Util\MathUtil.cpp" />
+    <ClCompile Include="..\src\Util\StringUtil.cpp" />
+    <ClCompile Include="Main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\Action.h" />
+    <ClInclude Include="..\src\Body.h" />
+    <ClInclude Include="..\src\BodyTypeManager.h" />
+    <ClInclude Include="..\src\Bullet.h" />
+    <ClInclude Include="..\src\Collider.h" />
+    <ClInclude Include="..\src\Engine.h" />
+    <ClInclude Include="..\src\Infrastructure\BezierCurve.h" />
+    <ClInclude Include="..\src\Infrastructure\BoundingShapes.h" />
+    <ClInclude Include="..\src\Infrastructure\ClassFactory.h" />
+    <ClInclude Include="..\src\Infrastructure\Color.h" />
+    <ClInclude Include="..\src\Infrastructure\Common.h" />
+    <ClInclude Include="..\src\Infrastructure\DynamicProperty.h" />
+    <ClInclude Include="..\src\Infrastructure\Exceptions.h" />
+    <ClInclude Include="..\src\Infrastructure\Interval.h" />
+    <ClInclude Include="..\src\Infrastructure\MemoryPool.h" />
+    <ClInclude Include="..\src\Infrastructure\PropertyHelper.h" />
+    <ClInclude Include="..\src\Infrastructure\Ray2.h" />
+    <ClInclude Include="..\src\Infrastructure\Segment.h" />
+    <ClInclude Include="..\src\Infrastructure\VecStructs.h" />
+    <ClInclude Include="..\src\Infrastructure\Vector2.h" />
+    <ClInclude Include="..\src\Infrastructure\Vector3.h" />
+    <ClInclude Include="..\src\Laser.h" />
+    <ClInclude Include="..\src\Messaging\Message.h" />
+    <ClInclude Include="..\src\Messaging\Switchboard.h" />
+    <ClInclude Include="..\src\ModernMagic.h" />
+    <ClInclude Include="..\src\Object.h" />
+    <ClInclude Include="..\src\ObjectManager.h" />
+    <ClInclude Include="..\src\stdafx.h" />
+    <ClInclude Include="..\src\Timeline.h" />
+    <ClInclude Include="..\src\Util\FileUtil.h" />
+    <ClInclude Include="..\src\Util\MathUtil.h" />
+    <ClInclude Include="..\src\Util\StringUtil.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{B9FE8302-73C5-4ED3-B833-DE47154010A3}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>TestCpp</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110_xp</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(Configuration)\bin</OutDir>
+    <IntDir>$(Configuration)\obj</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>bin\$(Configuration)\</OutDir>
+    <IntDir>obj\$(Configuration)\</IntDir>
+    <IncludePath>C:\Users\Tyler\Documents\GitHub\fancy2d\TestCpp;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Dependencies\fcyENGINE\include\fancy2D;$(SolutionDir)\Dependencies\fcyENGINE\include\fancyUI;$(SolutionDir)\Dependencies\fcyENGINE\include\fancylib;$(SolutionDir)\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BrowseInformation>true</BrowseInformation>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\fcyENGINE\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>fancy2D_d.lib;fancylib_d.lib;fancyUI_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <Bscmake>
+      <PreserveSbr>true</PreserveSbr>
+    </Bscmake>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(SolutionDir)\fancylib\;$(SolutionDir)\fancy2D\;$(SolutionDir)\fancyUI\</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(SolutionDir)\fancylib\bin\;$(SolutionDir)\fancy2D\bin\;$(SolutionDir)\fancyUI\bin\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>fancy2D.lib;fancylib.lib;fancyUI.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

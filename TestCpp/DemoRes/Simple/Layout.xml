@@ -1,0 +1,7 @@
+﻿<fancyUILayout>
+  <fuiLabel Name="TestLabel"
+            Left="20" Top="20" Width="600" Height="80"
+            Text=""
+            FontName="Font0" FontColor="255,0,255,0"
+            />
+</fancyUILayout>
