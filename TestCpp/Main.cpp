@@ -165,7 +165,7 @@ protected: // ÒıÇæÏûÏ¢
 			auto body = static_cast<Body*>(each);
 			auto &pos = body->GetPosition();
 			auto &color = body->GetColor();
-			
+
 			m_sprite->SetColor(fcyColor(body->GetOpacity(), color.R, color.G, color.B));
 
 			fcyVec2 scale(1.0f, 1.0f);
@@ -210,19 +210,19 @@ public:
 		ag->Add(new AnimateTo<float>("RenderRadius", 2.0f, 0.5f, IF_ExponentialOut));
 		ag->Add(new AnimateTo<float>("Opacity", 0.0f, 0.5f, IF_ExponentialOut));
 
-        emitter->SetPrototype(probody);
-        emitter->SetWayNumber(10);
-        emitter->SetInterval(0.1f);
-        emitter->SetEmittedNumber(-1);
-        
-        auto emitterBodyTL = theMMActionUpdater.Add(new LoopTimeline(-1));
-        emitterBodyTL->SetBindingObject(probody.get());
-        
-        emitterBodyTL->Add(new AnimateBy<float>("Angle", -360, 8.0f, IF_Smooth));
-        emitterBodyTL->Add(new AnimateBy<float>("Angle", 360, 8.0f, IF_Smooth));
-		
+		emitter->SetPrototype(probody);
+		emitter->SetWayNumber(10);
+		emitter->SetInterval(0.1f);
+		emitter->SetEmittedNumber(-1);
+
+		auto emitterBodyTL = theMMActionUpdater.Add(new LoopTimeline(-1));
+		emitterBodyTL->SetBindingObject(probody.get());
+
+		emitterBodyTL->Add(new AnimateBy<float>("Angle", -360, 8.0f, IF_Smooth));
+		emitterBodyTL->Add(new AnimateBy<float>("Angle", 360, 8.0f, IF_Smooth));
+
 		auto emitterBodyTL2 = theMMActionUpdater.Add(new LoopTimeline(-1));
-        emitterBodyTL2->SetBindingObject(probody.get());
+		emitterBodyTL2->SetBindingObject(probody.get());
 
 		emitterBodyTL2->Add(new AnimateTo<Color>("Color", Colors::Red, 2.0f, IF_Smooth));
 		emitterBodyTL2->Add(new AnimateTo<Color>("Color", Colors::Blue, 2.0f, IF_Smooth));
@@ -245,22 +245,22 @@ public:
 			body->SetAngle(MathUtil::RandomFloat(360.0f));
 		});
 		emitter2->SetInterval(0.03f);
-        emitter2->SetEmittedNumber(-1);
+		emitter2->SetEmittedNumber(-1);
 		/*
 		Segment segs[] = {
-			Segment(0,  0,  1024,  0),
-			Segment(0,  0,  0, 768),
-			Segment(1024,  768,  1024, 0),
-			Segment(1024,  768,  0, 768)
+		Segment(0,  0,  1024,  0),
+		Segment(0,  0,  0, 768),
+		Segment(1024,  768,  1024, 0),
+		Segment(1024,  768,  0, 768)
 		};
 
 		for (auto &each : segs) {
-			ReboundBoard *rb = new ReboundBoard(each);
-			theMMActionUpdater.Add(rb);
+		ReboundBoard *rb = new ReboundBoard(each);
+		theMMActionUpdater.Add(rb);
 		}*/
 
 		theMMEngine.SetWorldBox(BoundingBox(Vector2(-50, -50), Vector2(1024+50, 768+50)));
-        theMMEngine.Start();
+		theMMEngine.Start();
 
 		struct : public f2dInitialErrListener {
 			void OnErr(fuInt TimeTick, fcStr Src, fcStr Desc)
@@ -326,10 +326,10 @@ public:
 				auto result = m_pDev->CreateTextureFromStream (
 					m_pFileSys->GetStream(L"Res\\Images\\bulblu.png"),
 					0, 0, false, true, &m_texture
-				);
+					);
 				if (FCYFAILED(result))
 					return;
-				
+
 				m_pRenderer->CreateSprite2D(m_texture, &m_sprite);
 			}
 			catch (const fcyException& e)
