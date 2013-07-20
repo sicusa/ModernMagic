@@ -183,10 +183,10 @@ public:
 
 		auto probody = Object::MakeShared(theMMClassFactory.CreateObject<Bullet>("Bullet"));
 
-		theMMPropertyHelper.GetPropertyFromString(probody.get(), "Speed",    "100.0");
-		theMMPropertyHelper.GetPropertyFromString(probody.get(), "Color",    "0 0 255");
-		theMMPropertyHelper.GetPropertyFromString(probody.get(), "Position", "512 384");
-		theMMPropertyHelper.GetPropertyFromString(probody.get(), "Opacity",  "0.5");
+		theMMPropertyHelper.SetPropertyByString(probody.get(), "Speed",    "100.0");
+		theMMPropertyHelper.SetPropertyByString(probody.get(), "Color",    "0 0 255");
+		theMMPropertyHelper.SetPropertyByString(probody.get(), "Position", "512 384");
+		theMMPropertyHelper.SetPropertyByString(probody.get(), "Opacity",  "0.5");
 
         emitter->SetPrototype(probody);
         emitter->SetWayNumber(10);
@@ -194,7 +194,7 @@ public:
         emitter->SetEmittedNumber(-1);
         
         auto emitterBodyTL = theMMActionUpdater.Add(new LoopTimeline(-1));
-        emitterBodyTL->SetBindedObject(probody.get());
+        emitterBodyTL->SetBindingObject(probody.get());
         
         emitterBodyTL->Add(new AnimateBy<float>(
             "Angle", -360, 8.0f, IF_Smooth
@@ -204,7 +204,7 @@ public:
         ));
 		
 		auto emitterBodyTL2 = theMMActionUpdater.Add(new LoopTimeline(-1));
-        emitterBodyTL2->SetBindedObject(probody.get());
+        emitterBodyTL2->SetBindingObject(probody.get());
 
 		emitterBodyTL2->Add(new AnimateTo<Color>(
 			"Color", Colors::Red, 2.0f, IF_Smooth
@@ -231,11 +231,23 @@ public:
 
 			body->SetColor(colors[MathUtil::RandomInt(sizeof(colors) / sizeof(Color))]);
 			body->SetOpacity(MathUtil::RandomFloat(0.8f));
-			body->SetAngle(MathUtil::RandomFloat(360.f));
+			body->SetAngle(0);
 		});
 		emitter2->SetInterval(0.03f);
         emitter2->SetEmittedNumber(-1);
-		
+
+		Segment segs[] = {
+			Segment(0,  0,  1024,  768),
+			Segment( 13,  10,  13, -10),
+			Segment(-13,  10, -13, -10),
+			Segment(-13, -10,  13, -10)
+		};
+
+		for (auto &each : segs) {
+			ReboundBoard *rb = new ReboundBoard(each);
+			theMMActionUpdater.Add(rb);
+		}
+
 		theMMEngine.SetWorldBox(BoundingBox(Vector2(-50, -50), Vector2(1024+50, 768+50)));
         theMMEngine.Start();
 
@@ -280,6 +292,7 @@ public:
 
 			// ´´½¨äÖÈ¾Æ÷
 			m_pDev->CreateGraphics2D(0, 0, &m_pGraph2D);
+
 			m_pDev->CreateGraphics3D(NULL, &m_pGraph3D);
 			m_pGraph3D->SetWorldTransform(fcyMatrix4::GetScaleMatrix(0.8f));
 			m_pGraph3D->SetProjTransform(fcyMatrix4::GetPespctiveLH(4.f/3.f, 3.14f/4.f, 0.1f, 1000.f));

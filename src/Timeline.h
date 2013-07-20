@@ -92,7 +92,7 @@ public:
 	MM_PROPERTY_PBV_NS(size_t, _currentActionIndex, CurrentActionIndex)
 	
 	// 绑定当前时间轴的 object
-	MM_PROPERTY_PBV(Object*, _bindedObject, BindedObject)
+	MM_PROPERTY_PBV(Object*, _bindingObject, BindingObject)
 	
 private:
 	void InitProperties();
@@ -113,7 +113,7 @@ public:
 	
 public:
 	// 循环的次数
-	MM_PROPERTY_PBV_NS(size_t, _loopNumber, LoopNumber)
+	MM_PROPERTY_PBV(size_t, _loopNumber, LoopNumber)
 	
 	// 累计的循环次数
 	MM_PROPERTY_PBV(size_t, _cumNumber, CumulativeNumber)
@@ -593,8 +593,14 @@ public:
 private:
 	virtual bool OnInstalling() override
 	{
-		auto obj = this->GetRootBindedObject();
-		if (obj == nullptr || (_property = obj->GetProperty(_proname)) == nullptr) {
+		auto rootobj = this->GetRootObject();
+		if (!rootobj)
+			return false;
+
+		_property = rootobj->GetProperty(_proname);
+
+		if (!_property || typeid(T).hash_code() != _property->GetHash() ||
+			_property->GetPermission() == PropertyPermission::Readonly) {
 			return false;
 		}
 		return true;
@@ -627,9 +633,7 @@ __ChangeProperty<T>::__ChangeProperty(const __ChangeProperty &other):
 template <typename T>
 void __ChangeProperty<T>::InitProperties()
 {
-	this->RegisterProperty("Name", &_proname);
-	this->RegisterProperty("ChangedProperty", &_property,
-						   PropertyPermission::Readonly);
+	this->RegisterProperty("Property", &_proname);
 	this->RegisterProperty("Value", &_value);
 }
 
@@ -752,7 +756,8 @@ template <typename T>
 void CallbackAnimation<T>::InitProperties()
 {
 	this->RegisterProperty("Interval", &_interval);
-	this->RegisterProperty("OnUpdate", &_onUpdate);
+	this->RegisterProperty("OnUpdate", &_onUpdate,
+						   PropertyPermission::Writeonly);
 }
 
 /**
@@ -790,20 +795,22 @@ protected:
 		if (!Animation::OnInstalling())
 			return false;
 		
-		auto bindedObj = this->GetRootBindedObject();
-		if (bindedObj)
-			_property = bindedObj->GetProperty(_proname);
-		else
+		auto rootobj = this->GetRootObject();
+		if (!rootobj)
 			return false;
+
+		_property = rootobj->GetProperty(_proname);
 		
 		if (!_property || typeid(T).hash_code() != _property->GetHash() ||
-			_property->GetPermission() != PropertyPermission::ReadAndWrite) {
+			_property->GetPermission() == PropertyPermission::Readonly) {
 			return false;
 		}
-		if (!_startSetted) {
+		if (!_isSetStart) {
+			if (_property->GetPermission() != PropertyPermission::ReadAndWrite)
+				return false;
+
 			_interval.SetStart(_property->UnsafeGet<T>());
 		}
-		
 		return true;
 	}
 	virtual void OnUninstalled() override
@@ -814,7 +821,7 @@ protected:
 	IntervalType &Interval() { return _interval; }
 	
 protected:
-	bool _startSetted;
+	bool _isSetStart;
 	
 private:
 	void InitProperties();
@@ -839,14 +846,12 @@ void __PropertyAnimation<T>::InitProperties()
 		std::bind(&IntervalType::SetIntervalFunc, &_interval, std::placeholders::_1),
 		std::bind(&IntervalType::GetIntervalFunc, &_interval)
 	);
-	this->RegisterProperty("Name", &_proname);
-	this->RegisterProperty("ChangedProperty", &_property,
-						   PropertyPermission::Readonly);
+	this->RegisterProperty("Property", &_proname);
 }
 
 template <typename T>
 __PropertyAnimation<T>::__PropertyAnimation():
-	_startSetted(true), _property(nullptr)
+	_isSetStart(true), _property(nullptr)
 {
 	this->InitProperties();
 }
@@ -856,7 +861,7 @@ __PropertyAnimation<T>::
 __PropertyAnimation(const String &proname, const T &start, const T &end, float dur,
 					IntervalFunc func):
 	_interval(start, end, time, func), _proname(proname),
-	_startSetted(true), _property(nullptr)
+	_isSetStart(true), _property(nullptr)
 {
 	this->InitProperties();
 }
@@ -866,7 +871,7 @@ __PropertyAnimation<T>::
 __PropertyAnimation(const String &proname, const T &end, float dur,
 					IntervalFunc func):
 	_interval(T(), end, dur, func), _proname(proname),
-	_startSetted(false), _property(nullptr)
+	_isSetStart(false), _property(nullptr)
 {
 	this->InitProperties();
 }
@@ -876,7 +881,7 @@ __PropertyAnimation<T>::
 __PropertyAnimation(const __PropertyAnimation &other):
 	Animation(other),
 	_interval(other._interval), _proname(other._proname),
-	_property(other._property), _startSetted(other._startSetted)
+	_property(other._property), _isSetStart(other._isSetStart)
 {
 	this->InitProperties();
 }
@@ -930,7 +935,7 @@ public:
 						IntervalFunc type = IF_Linear):
 		__PropertyAnimation<T>(proname, end, dur, type)
 	{
-		this->_startSetted = true;
+		this->_isSetStart = true;
 	}
 	
 	virtual bool Update(float dt) override

@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 #include "Segment.h"
 #include "Vector3.h"
@@ -6,39 +6,43 @@
 
 MM_BEGIN
 
-inline double DirectionV3(double x1, double y1, double x2, double y2, double x3, double y3)
+/**
+ * @brief 求矢量[p0, p1], [p0, p2]的叉积  
+ * @param p1
+ * @param p2
+ * @param p0 顶点
+ * @return 若结果等于0，则这三点共线。若结果大于0，则[p0, p2]在[p0, p1]的逆时针方向。若结果小于0，则[p0, p2]在[p0, p1]的顺时针方向  
+*/
+inline double _Multi(Vector2 p1, Vector2 p2, Vector2 p0)
+{  
+	return (p1.X - p0.X) * (p2.Y - p0.Y) - (p2.X - p0.X) * (p1.Y - p0.Y);  
+}  
+/**
+ * @brief 判断两线段是否相交
+ * @param s1 线段1起始点
+ * @param e1 线段1结束点
+ * @param s2 线段2起始点
+ * @param e2 线段2结束点
+ * return 两线段是否相交
+*/
+inline bool _IsIntersected(Vector2 s1, Vector2 e1, Vector2 s2, Vector2 e2)
 {
-	return x1 * y3 + x2 * y1 + x3 * y2 - x1 * y2 - x2 * y3 - x3 * y1;
-}
-
-inline bool PointIntersects(const Vector2 &point, const BoundingBox &box)
-{
-	bool blResult = (point.X >= box.Min.X && point.X <= box.Max.X) &&
-		(point.Y >= box.Min.Y && point.Y <= box.Max.Y);
-	return blResult;
+	if((_Multi(s2, e1, s1) * _Multi(e1, e2, s1) >= 0) && 
+		(_Multi(s1, e2, s2) * _Multi(e2, e1, s2) >= 0)) 
+	{
+		return true;
+	}
+	return false;
 }
 
 /*static*/ bool Segment::Intersects(const Vector2 &A, const Vector2 &B, const Vector2 &a, const Vector2 &b)
 {
-	double x1 = A.X, y1 = A.Y;
-	double x2 = B.X, y2 = B.Y;
-	double x3 = a.X, y3 = a.Y;
-	double x4 = b.X, y4 = b.Y;
-
-	if (DirectionV3(x1, y1, x2, y2, x3, y3) *
-		DirectionV3(x1, y1, x2, y2, x4, y4) > 0)
-		return false;
-
-	if (DirectionV3(x3, y3, x4, y4, x1, y1) *
-		DirectionV3(x3, y3, x4, y4, x2, y2) > 0)
-		return false;
-
-	return true;
+	 return _IsIntersected(A, B, a, b);
 }
 
 /*static*/ bool Segment::Intersects(const Vector2 &A, const Vector2 &B, const BoundingBox &box)
 {
-	if (PointIntersects(A, box) || PointIntersects(B, box) ) {
+	if (box.Intersects(A) || box.Intersects(B)) {
 		return true;
 	}
 
@@ -62,7 +66,7 @@ inline bool PointIntersects(const Vector2 &point, const BoundingBox &box)
 	Vector2 ac = point - A;
 
 	float f = Vector2::Dot(ab, ac);
-	if (f < 0) return Vector2::Distance(point, A);
+	if (f < 0.f) return Vector2::Distance(point, A);
 
 	float d = Vector2::Dot(ab, ab);
 	if (f > d) return Vector2::Distance(point, B);

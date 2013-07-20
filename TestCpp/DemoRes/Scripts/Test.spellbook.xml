@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Spellbook>
+    
+    <!--定义引擎资源-->
+    <Resources>
+        <BulletType Name="TestBullet"
+                    Speed="100"
+			        Position="0 0"
+			        Opacity="0.5"
+			        Color="0 0 255"
+                    />
+        <Bullet Name="ProBullet"
+                Type="TestBullet"
+                />
+        <Script Type="Lua">
+            function Emitter2_OnBodyCreated(body)
+                body:SetSpeed(math.random(100.0, 200.0))
+                body:SetOpacity(math.random(0.8))
+                body:SetAngle(math.random(360.0))
+            end
+        </Script>
+    </Resources>
+
+    <!--符卡-->
+    <Spellcard Name="MasterSpark">
+        
+        <!--主时间轴-->
+        <MainTimeline>
+            <AnnularEmitter Name="Emitter1"
+                            WayNumber="10"
+                            Interval="0.1"
+                            EmittedNumber="-1"
+                            />
+            <Emitter Name="Emitter2"
+                     Interval="0.03"
+                     EmittedNumber="-1"
+                     OnBodyCreated="Emitter2_OnBodyCreated"
+                     />
+        </MainTimeline>
+
+        <!--全局 Actions-->
+        <ActionUpdater>
+            <Timeline BindingObject="ProBody">
+                <AnimateBy Property="Angle"
+                           To="360"
+                           Duration="0.8"
+                           Effect="Linear"/>
+            </Timeline>
+            
+            <Timeline BindingObject=""/>
+        </ActionUpdater>
+        
+    </Spellcard>
+    
+</Spellbook>

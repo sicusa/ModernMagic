@@ -13,7 +13,7 @@ public:
 	Action(const Action &other);
 
 	// 获取根时间轴绑定的 Object
-	Object *GetRootBindedObject();
+	Object *GetRootObject();
 
 public:
 	// 绑定的根时间轴

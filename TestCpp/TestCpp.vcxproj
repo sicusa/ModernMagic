@@ -75,6 +75,9 @@
     <ClInclude Include="..\src\Util\MathUtil.h" />
     <ClInclude Include="..\src\Util\StringUtil.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Xml Include="DemoRes\Scripts\Test.spellbook.xml" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B9FE8302-73C5-4ED3-B833-DE47154010A3}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>

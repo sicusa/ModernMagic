@@ -65,8 +65,8 @@ public:
 	 *
 	 * @return 是否读取成功
 	 */
-	bool GetPropertyFromString(DyBasicProperty *pro, const String &str);
-	bool GetPropertyFromString(Object *obj, const String &proname, const String &str);
+	bool SetPropertyByString(DyBasicProperty *pro, const String &str);
+	bool SetPropertyByString(Object *obj, const String &proname, const String &str);
 
 private:
 	PropertyHelper();

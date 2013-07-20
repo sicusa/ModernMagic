@@ -61,6 +61,11 @@ struct BoundingBox
 	bool Intersects(const BoundingBox& box) const;
 	bool Intersects(const Ray2& ray, float& distanceAlongRay) const;
 	bool Intersects(const Vector2& point, float radius) const;
+	bool Intersects(const Vector2 &point) const {
+		bool blResult = (point.X >= Min.X && point.X <= Max.X) &&
+			(point.Y >= Min.Y && point.Y <= Max.Y);
+		return blResult;
+	}
 
 	ContainmentType Contains(const BoundingBox& box) const;
 	bool Contains(const Vector2& point) const;

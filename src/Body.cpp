@@ -42,7 +42,7 @@ Body::Body(const Body &other):
 {
 	if (other._appliedTimeline) {
 		_appliedTimeline = Object::Clone(other._appliedTimeline);
-		_appliedTimeline->SetBindedObject(this);
+		_appliedTimeline->SetBindingObject(this);
 	}
 	this->InitProperties();
 }
@@ -61,9 +61,9 @@ void Body::InitProperties()
 	this->RegisterProperty("IsDestroyWhenTimelineEnd", &_destroyWhenTimelineEnd);
 
 	this->RegisterProperty("IsReboundable", &_isReboundable,
-		PropertyPermission::Readonly);
+						   PropertyPermission::Readonly);
 	this->RegisterProperty("CalculatedOffset", &_calculatedOffset,
-		PropertyPermission::Readonly);
+						   PropertyPermission::Readonly);
 
 	this->RegisterProperty<float> ("Opacity", &_opacity);
 	this->RegisterProperty<float> (
@@ -102,7 +102,7 @@ void Body::SetAppliedTimeline(Timeline *v)
 	_appliedTimeline = v;
 
 	if (v != nullptr) {
-		_appliedTimeline->SetBindedObject(this);
+		_appliedTimeline->SetBindingObject(this);
 	}
 }
 
@@ -123,9 +123,9 @@ void Body::SetAngle(float v)
 
 void Body::Calculate()
 {
-	float tmp = _angle * static_cast<float>(MathUtil::Pi) / 180.0f;
+	float tmp = _angle * MathUtil::Pi / 180.0f;
 	_calculatedOffset.X = _speed * sin(tmp);
-	_calculatedOffset.Y = _speed * cos(tmp);
+	_calculatedOffset.Y = -_speed * cos(tmp);
 }
 
 bool Body::OnInstalling()

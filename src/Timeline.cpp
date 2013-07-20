@@ -16,7 +16,7 @@ MM_BEGIN
 
 Timeline::Timeline():
 	_currentActionIndex(0),
-	_bindedObject(nullptr)
+	_bindingObject(nullptr)
 {
 	Action::SetRootTimeline(this);
 	this->InitProperties();
@@ -25,7 +25,7 @@ Timeline::Timeline():
 Timeline::Timeline(const Timeline &other):
 	Action(other),
 	_currentActionIndex(other._currentActionIndex),
-	_bindedObject(nullptr)
+	_bindingObject(nullptr)
 {
 	Timeline *rtl = other.GetRootTimeline();
 	Action::SetRootTimeline(rtl != &other ? rtl : this);
@@ -38,7 +38,7 @@ void Timeline::InitProperties()
 {
 	this->RegisterProperty("Actions", &_actions,
 						   PropertyPermission::Readonly);
-	this->RegisterProperty("BindedObject", &_bindedObject);
+	this->RegisterProperty("BindTo", &_bindingObject);
 }
 
 Timeline::~Timeline()
@@ -198,8 +198,7 @@ MM_IMPL_UPDATE(LoopTimeline, dt)
 
 void LoopTimeline::InitProperties()
 {
-	this->RegisterProperty("LoopNumber", &_loopNumber,
-						   PropertyPermission::Readonly);
+	this->RegisterProperty("LoopNumber", &_loopNumber);
 	this->RegisterProperty("CumulativeNumber", &_cumNumber);
 }
 

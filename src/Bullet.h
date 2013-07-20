@@ -13,9 +13,7 @@ class Bullet : public Body
 {
 	MM_TAG_CLONEABLE_UNIMPL
 	MM_TAG_DESTROYABLE_UNIMPL
-
 	MM_TAG_ENABLE_TYPE(Bullet)
-	
 	MM_TAG_OVERRIDE_UPDATE
 	
 public:
@@ -50,7 +48,7 @@ public:
 	virtual bool IsCollided(const Segment &seg) const override;
 	
 	/**
-	 * 零时存放的反弹板
+	 * 子弹碰撞到的反弹板
 	 * 不需要手动修改
 	 */
 	MM_PROPERTY_PBV(ReboundBoard*, _colReBoard, CollidedReboundBoard)

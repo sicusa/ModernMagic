@@ -78,7 +78,7 @@ void PropertyHelper::RegisterParser(size_t hash, const ParserFunc &parser)
 	_pfuncs[hash] = parser;
 }
 
-bool PropertyHelper::GetPropertyFromString(DyBasicProperty *pro, const String &str)
+bool PropertyHelper::SetPropertyByString(DyBasicProperty *pro, const String &str)
 {
 	if (pro->GetPermission() == PropertyPermission::Readonly) {
 		return false;
@@ -90,13 +90,13 @@ bool PropertyHelper::GetPropertyFromString(DyBasicProperty *pro, const String &s
 	return iter->second(pro, str);
 }
 
-bool PropertyHelper::GetPropertyFromString(Object *obj, const String &proname, const String &str)
+bool PropertyHelper::SetPropertyByString(Object *obj, const String &proname, const String &str)
 {
 	auto pro = obj->GetProperty(proname);
 	if (pro == nullptr) {
 		return false;
 	}
-	return this->GetPropertyFromString(pro, str);
+	return this->SetPropertyByString(pro, str);
 }
 
 MM_END

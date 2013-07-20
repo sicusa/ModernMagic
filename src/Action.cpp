@@ -34,9 +34,9 @@ void Action::InitProperties()
 	this->RegisterProperty("Parent", &_parent);
 }
 
-Object *Action::GetRootBindedObject()
+Object *Action::GetRootObject()
 {
-	return _rootTimeline ? _rootTimeline->GetBindedObject() : nullptr;
+	return _rootTimeline ? _rootTimeline->GetBindingObject() : nullptr;
 }
 
 MM_END

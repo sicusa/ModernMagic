@@ -216,4 +216,9 @@
       <Filter>ModernMagic</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Xml Include="DemoRes\Scripts\Test.spellbook.xml">
+      <Filter>资源文件</Filter>
+    </Xml>
+  </ItemGroup>
 </Project>
