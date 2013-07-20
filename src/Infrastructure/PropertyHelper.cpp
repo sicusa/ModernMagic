@@ -1,6 +1,7 @@
 #include "stdafx.h"
 
 #include "PropertyHelper.h"
+#include "Color.h"
 #include "../Object.h"
 
 MM_BEGIN
@@ -47,20 +48,29 @@ PropertyHelper::PropertyHelper()
 		pro->UnsafeSet<Vector2>(StringToVector2(str));
 		return true;
 	MM_REG_PRO_PARSER_END
-		/*
+	
 	// Color
 	MM_REG_PRO_PARSER_BEGIN(Color, pro, str)
+		if (str[0] == '#') {
+			pro->UnsafeSet<Color>(Color::FromHexString(str));
+			return true;
+		}
+
 		StringList split = SplitString(str);
-		Vector2 retVal;
+		Color color;
 
 		if( split.size() > 0 )
-			retVal.X = StringToFloat(split[0]);
+			color.R = StringToInt(split[0]) / 255.0f;
 
 		if( split.size() > 1 )
-			retVal.Y = StringToFloat(split[1]);
+			color.G = StringToInt(split[1]) / 255.0f;
 
-		return retVal;
-	MM_REG_PRO_PARSER_END*/
+		if( split.size() > 2 )
+			color.B = StringToInt(split[2]) / 255.0f;
+
+		pro->UnsafeSet<Color>(color);
+		return true;
+	MM_REG_PRO_PARSER_END
 }
 
 void PropertyHelper::RegisterParser(size_t hash, const ParserFunc &parser)

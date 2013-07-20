@@ -183,10 +183,10 @@ public:
 
 		auto probody = Object::MakeShared(theMMClassFactory.CreateObject<Bullet>("Bullet"));
 
-		probody->SetProperty("Speed", 100.0f);
-		probody->SetProperty("Color", Color(0, 0, 255));
-		probody->SetProperty("Position", Vector2(1024/2, 768/2));
-		probody->SetProperty("Opacity", 0.5f);
+		theMMPropertyHelper.GetPropertyFromString(probody.get(), "Speed",    "100.0");
+		theMMPropertyHelper.GetPropertyFromString(probody.get(), "Color",    "0 0 255");
+		theMMPropertyHelper.GetPropertyFromString(probody.get(), "Position", "512 384");
+		theMMPropertyHelper.GetPropertyFromString(probody.get(), "Opacity",  "0.5");
 
         emitter->SetPrototype(probody);
         emitter->SetWayNumber(10);

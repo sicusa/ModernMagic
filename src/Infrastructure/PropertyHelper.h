@@ -45,8 +45,6 @@ public:
 	template <typename T>
 	void RegisterParser() {
 		this->RegisterParser<T>([](DyBasicProperty *pro, const String &str) -> bool {
-			using namespace std;
-			
 			T tmp;
 			std::istringstream ss(str);
 			ss >> tmp;

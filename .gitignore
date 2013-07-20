@@ -1,3 +1,4 @@
 TestCpp/Debug/
 TestCpp/Release/
 *.suo
+.DS_Store

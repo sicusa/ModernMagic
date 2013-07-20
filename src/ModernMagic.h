@@ -3,6 +3,7 @@
 #include "Infrastructure/BoundingShapes.h"
 #include "Infrastructure/Color.h"
 #include "Infrastructure/DynamicProperty.h"
+#include "Infrastructure/PropertyHelper.h"
 #include "Infrastructure/ClassFactory.h"
 #include "Infrastructure/Exceptions.h"
 #include "Infrastructure/Interval.h"
