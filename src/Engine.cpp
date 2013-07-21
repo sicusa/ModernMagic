@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 #include "ModernMagic.h"
 
@@ -61,11 +61,6 @@ Engine::Engine()
 	theMMClassFactory.Register<AnimateBy<size_t>>("UIntAnimateBy");
 	theMMClassFactory.Register<AnimateTo<int>>("IntAnimateTo");
 	theMMClassFactory.Register<AnimateBy<int>>("IntAnimateBy");
-}
-
-bool Engine::Start()
-{
-	return _bodyUpdater.Install() && _actionUpdater.Install() && _mainTimeline.Install();
 }
 
 void Engine::Update(float dt)

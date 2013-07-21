@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 #include "Timeline.h"
 
@@ -64,9 +64,15 @@ bool Timeline::SetCurrentAction(size_t index)
 {
 	MM_ASSERT(index >= _actions.size());
 	
-	if (!_actions[index]->Install()) {
-		return false;
+	MM_TRY {
+		if (!_actions[index]->Install()) {
+			return false;
+		}
 	}
+	MM_CATCH (InstallingError &e) {
+		MM_THROW InstallingError("Timeline [SetCurrentAction]: 指定的 Action 安装失败 -->\n    " + e.str());
+	}
+	
 	this->CurrentAction()->Uninstall();
 	_currentActionIndex = index;
 	return true;
@@ -128,10 +134,14 @@ bool Timeline::NextAction()
 	
 	size_t size = _actions.size();
 	while (++_currentActionIndex < size) {
-		if (CurrentAction()->Install()) {
-			return true;
+		try {
+			if (CurrentAction()->Install()) {
+				return true;
+			}
 		}
-		MM_ASSERT(false);
+		catch (InstallingError &e) {
+			MM_THROW(InstallingError("Timeline [NextAction]: 子动作安装失败 -->\n    " + e.str()));
+		}
 	}
 	return false;
 }
@@ -186,11 +196,11 @@ MM_IMPL_UPDATE(LoopTimeline, dt)
 	if (Timeline::Update(dt)) {
 		Timeline::Uninstall();
 		
-		if (++_cumNumber >= _loopNumber) {
+		if (++_cumNumber == _loopNumber) {
 			return true;
 		}
 		if (!Timeline::Install()) {
-			throw InstallingFailure("Timeline 安装失败");
+			return false;
 		}
 	}
 	return false;
@@ -214,9 +224,6 @@ bool ActionGroup::OnAdd(Object *obj)
 	MM_ASSERT(obj);
 	auto ptr = static_cast<Action*>(obj);
 	
-	if (this->IsInstalled() && !ptr->Install())
-		return false;
-	
 	ptr->SetRootTimeline(this->GetRootTimeline());
 	ptr->SetParent(this);
 	return true;
@@ -233,14 +240,6 @@ void ActionGroup::OnRemove(Object *obj)
 	ObjectManager::OnRemove(obj);
 }
 
-void ActionGroup::OnCloneObject(Object *obj)
-{
-	MM_ASSERT(obj);
-	auto ptr = static_cast<Action*>(obj);
-	ptr->SetRootTimeline(this->GetRootTimeline());
-	ptr->SetParent(this);
-}
-
 bool ActionGroup::OnIterate(Object *obj, float dt)
 {
 	MM_ASSERT(obj);
@@ -255,12 +254,18 @@ bool ActionGroup::OnIterate(Object *obj, float dt)
 
 bool ActionGroup::OnInstalling()
 {
-	if (!ObjectManager::OnInstalling())
+	if (!ObjectManager::OnInstalling()) {
 		return false;
+	}
 	
 	for (auto each : this->GetObjects()) {
-		if (!static_cast<Action*>(each)->Install()) {
-			++_uobj_num;
+		try {
+			if (!static_cast<Action*>(each)->Install()) {
+				++_uobj_num;
+			}
+		}
+		catch (InstallingError &e) {
+			MM_THROW InstallingError("ActionGroup: 子动作安装失败 -->\n    " + e.str());
 		}
 	}
 	return true;
@@ -427,7 +432,7 @@ MM_IMPL_UPDATE(ActionCallback, dt)
 /****ActionRandom****/
 
 ActionRandom::ActionRandom():
-	_action(nullptr), _percentage(0.0f)
+	_action(nullptr), _percentage(0)
 {
 	this->InitProperties();
 }
@@ -461,11 +466,18 @@ ActionRandom::~ActionRandom()
 
 bool ActionRandom::OnInstalling()
 {
-	if (_action && _percentage >= MathUtil::RandomInt(100)) {
-		_action->SetRootTimeline(this->GetRootTimeline());
-		return _action->Install();
+	if (!Action::OnInstalling()) {
+		return false;
 	}
-	return false;
+	if (!_action) {
+		MM_THROW InstallingError("ActionRandom: 没有设置 Action");
+		return false;
+	}
+	if (_percentage >= MathUtil::RandomInt(100)) {
+		return true;
+	}
+	_action->SetRootTimeline(this->GetRootTimeline());
+	return _action->Install();
 }
 
 void ActionRandom::OnUninstalled()
@@ -709,7 +721,7 @@ bool AnnularEmitter::Emit()
 		theMMEngine.BodyUpdater().Add(newbody);
 	}
 	// 在最后将 body 加入 BodyUpdater 是为了防止 BodyUpdater::Add 对
-	// body->Timeline 执行 Install 从而干扰之后从body 克隆的 Bodies
+	// body->Timeline 执行 Install 从而干扰之后从 body 克隆的 Bodies
 	theMMEngine.BodyUpdater().Add(body);
 	return false;
 }
@@ -789,7 +801,7 @@ CollisionSelector::CollisionSelector():
 	this->InitProperties();
 }
 
-CollisionSelector::CollisionSelector(ICollider *collider):
+CollisionSelector::CollisionSelector(const std::shared_ptr<ICollider> &collider):
 	_collider(collider)
 {
 	this->InitProperties();
@@ -804,6 +816,17 @@ CollisionSelector::CollisionSelector(const CollisionSelector &other):
 void CollisionSelector::InitProperties()
 {
 	this->RegisterProperty("Collider", &_collider);
+}
+
+bool CollisionSelector::OnInstalling()
+{
+	if (!CallbackSelector::OnInstalling()) {
+		return false;
+	}
+	if (_collider == nullptr) {
+		MM_THROW InstallingError("CollisionSelector: 必须设置 Collider") ;
+	}
+	return true;
 }
 
 MM_IMPL_UPDATE(CollisionSelector, dt)

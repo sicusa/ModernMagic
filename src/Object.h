@@ -1,6 +1,6 @@
-#pragma once
+﻿#pragma once
 
-#include "Infrastructure/Exceptions.h"
+#include "Exceptions.h"
 #include "Infrastructure/DynamicProperty.h"
 
 /**

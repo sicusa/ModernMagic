@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "Action.h"
 
@@ -40,7 +40,6 @@ namespace Detail {
 		 */
 		Object *Add(Object *obj);
 		
-		virtual void OnCloneObject  (Object*)   { }
 		virtual bool OnAdd          (Object*)   { return true; }
 		virtual void OnRemove       (Object*)   { }
 		virtual bool OnIterate      (Object*, float dt) { return false; }

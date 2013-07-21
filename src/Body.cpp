@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 #include "Body.h"
 #include "Timeline.h"
@@ -11,7 +11,7 @@
 MM_BEGIN
 
 Body::Body():
-	_texture(-1), _layer(0),
+	_texture(-1), _layer(0), _scale(1.0f),
 	_radius(0.0f), _angle(0.0f), _radian(0.0f), _speed(0.0f),
 	_angleAddition(0.0f), _speedAddition(0.0f),
 	_isFrozen(false),
@@ -28,7 +28,7 @@ Body::Body(const Body &other):
 	UpdatableObject(other),
 	_position(other._position),
 	_texture(other._texture),
-	_color(other._color), _layer(other._layer),
+	_color(other._color), _layer(other._layer), _scale(other._scale),
 	_radius(other._radius), _angle(other._angle), _radian(other._radian), _speed(other._speed),
 	_angleAddition(other._angleAddition), _speedAddition(other._speedAddition),
 	_isFrozen(other._isFrozen), 
@@ -59,6 +59,7 @@ void Body::InitProperties()
 	this->RegisterProperty("IsFrozen",      &_isFrozen);
 	this->RegisterProperty("IsDestroyWhenMoveOffScreen", &_destroyWhenMoveOffScreen);
 	this->RegisterProperty("IsDestroyWhenTimelineEnd", &_destroyWhenTimelineEnd);
+	this->RegisterProperty("Scale", &_scale);
 
 	this->RegisterProperty("IsBullet", &_isBullet,
 						   PropertyPermission::Readonly);

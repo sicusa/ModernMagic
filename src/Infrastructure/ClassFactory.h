@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "../Util/StringUtil.h"
 
@@ -22,7 +22,7 @@ public:
 	}
 
 	/**
-	 * Ïò ClassFactory ×¢²áÒ»¸öÀà£¬¸ÃÀà±ØĞëÓµÓĞÓĞĞ§µÄÄ¬ÈÏ¹¹Ôìº¯Êı
+	 * å‘ ClassFactory æ³¨å†Œä¸€ä¸ªç±»ï¼Œè¯¥ç±»å¿…é¡»æ‹¥æœ‰æœ‰æ•ˆçš„é»˜è®¤æ„é€ å‡½æ•°
 	 */
 	template <typename T>
 	void Register(const String &name) {
@@ -32,17 +32,17 @@ public:
 	}
 
 	/**
-	 * Ïò ClassFactory ×¢²áÒ»¸öÀà
+	 * å‘ ClassFactory æ³¨å†Œä¸€ä¸ªç±»
 	 *
-	 * @param ÀàĞÍµÄ×Ö·û´®Ãû
-	 * @param ÄÜÓÃ´´½¨´ËÀàĞÍµÄ¶ÔÏóµÄº¯Êı
+	 * @param ç±»å‹çš„å­—ç¬¦ä¸²å
+	 * @param èƒ½ç”¨åˆ›å»ºæ­¤ç±»å‹çš„å¯¹è±¡çš„å‡½æ•°
 	 */
 	void Register(const String &name, const ObjectCreator &creator) {
 		_creators[name] = creator;
 	}
 
 	/**
-	 * Í¨¹ıÀàĞÍ¹¤³§´´½¨Ò»¸ö¶ÔÏó
+	 * é€šè¿‡ç±»å‹å·¥å‚åˆ›å»ºä¸€ä¸ªå¯¹è±¡
 	 */
 	Object *CreateObject(const String &className) {
 		auto iter = _creators.find(className);
@@ -52,9 +52,6 @@ public:
 		return iter->second();
 	}
 
-	/**
-	 * 
-	 */
 	template <typename T>
 	T *CreateObject(const String &className) {
 		T *ptr = dynamic_cast<T*>(this->CreateObject(className));

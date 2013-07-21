@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 #include "DynamicProperty.h"
 
@@ -25,12 +25,12 @@ PropertyInfo *DyPropertyClass::GetPropertyInfo(const String &name)
     if (iter == _proinfos.end())
     {
         struct PropertyInfo *info = new struct PropertyInfo();
-        _proinfos[name] = info;
+        _proinfos[name].reset(info);
         info->Name = name;
         return info;
     }
     else {
-        return iter->second;
+        return iter->second.get();
     }
 }
 

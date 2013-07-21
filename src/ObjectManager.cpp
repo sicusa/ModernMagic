@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 #include "ObjectManager.h"
 #include "Object.h"
@@ -16,15 +16,9 @@ namespace Detail {
 		Action(other)
 	{
 		this->InitProperties();
-		
-		_objects.resize(other._objects.size());
-		
-		int i = 0;
+
 		for (auto &each : other._objects) {
-			auto ptr = Object::Clone(each);
-			OnCloneObject(ptr);
-			_objects[i] = ptr;
-			++i;
+			this->Add(Object::Clone(each));
 		}
 	}
 

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <math.h>
 #include <iostream>
@@ -113,9 +113,13 @@
 #endif
 
 #ifdef MM_NOEXCEPTION
-#define MM_THROW(e)
+#define MM_THROW	if (true) {} else
+#define MM_TRY		if (true)
+#define MM_CATCH(e) else
 #else
-#define MM_THROW(e) throw (e)
+#define MM_THROW	throw
+#define MM_TRY		try
+#define MM_CATCH(e) catch(e)
 #endif
 
 #ifndef MM_BULLET_CACHE_SIZE

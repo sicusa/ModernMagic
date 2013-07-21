@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 MM_BEGIN
 
@@ -72,13 +72,13 @@ private:
 	MM_PROPERTY_PBV(float, _duration, Duration)
 
 	// 开始
-	MM_PROPERTY_PBV(T, _start, Start)
+	MM_PROPERTY_PBR(T, _start, Start)
 
 	// 结束
-	MM_PROPERTY_PBV(T, _end, End)
+	MM_PROPERTY_PBR(T, _end, End)
 
 	// 当前的值
-	MM_PROPERTY_PBV_NS(T, _current, Current)
+	MM_PROPERTY_PBR_NS(T, _current, Current)
 
 	// 是否需要继续调用 Step
 	MM_PROPERTY_BOOL_NS(_shouldStep, ShouldStep)

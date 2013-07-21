@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "Infrastructure/BoundingShapes.h"
 #include "Infrastructure/Color.h"
@@ -60,6 +60,11 @@ public:
 	 * 颜色
 	 */
 	MM_PROPERTY_PBR(Color, _color, Color)
+
+	/**
+	 * 缩放（比例）
+	 */
+	MM_PROPERTY_PBV(float, _scale, Scale)
 	
 	/**
 	 * Body 所处的层

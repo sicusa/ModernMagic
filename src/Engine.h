@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "ObjectManager.h"
 #include "Timeline.h"
@@ -37,8 +37,6 @@ public:
 	ObjectUpdater<Action> &ActionUpdater() {
 		return _actionUpdater;
 	}
-	
-	bool Start();
 	
 	void Update(float dt);
 

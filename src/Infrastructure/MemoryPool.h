@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #ifdef MM_ENABLE_MEMORYPOOL
 

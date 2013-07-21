@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "../Util/StringUtil.h"
 
@@ -16,8 +16,8 @@ MM_BEGIN
 class PropertyHelper
 {
 public:
-	// ½«Êı¾İ´Ó String ¶ÁÈ¡£¬±£´æµ½Ö¸¶¨ÊôĞÔÖĞµÄ½âÎöÆ÷
-	// ·µ»ØÊÇ·ñ½âÎö²¢±£´æ³É¹¦
+	// å°†æ•°æ®ä» String è¯»å–ï¼Œä¿å­˜åˆ°æŒ‡å®šå±æ€§ä¸­çš„è§£æå™¨
+	// è¿”å›æ˜¯å¦è§£æå¹¶ä¿å­˜æˆåŠŸ
 	typedef std::function<bool(DyBasicProperty*, const String&)>	ParserFunc;
 	typedef std::unordered_map<size_t, ParserFunc>					ParserFuncContainer;
 
@@ -28,10 +28,10 @@ public:
 	}
 
 	/**
-	 * ×¢²áÒ»¸ö String µ½ Property µÄ½âÎöÆ÷
+	 * æ³¨å†Œä¸€ä¸ª String åˆ° Property çš„è§£æå™¨
 	 *
-	 * @param ½âÎöÆ÷Õë¶ÔµÄÊôĞÔÀàĞÍµÄ¹şÏ£Öµ
-	 * @param ½âÎöÆ÷º¯Êı
+	 * @param è§£æå™¨é’ˆå¯¹çš„å±æ€§ç±»å‹çš„å“ˆå¸Œå€¼
+	 * @param è§£æå™¨å‡½æ•°
 	 */
 	void RegisterParser(size_t hash, const ParserFunc &parser);
 	template <typename T>
@@ -40,7 +40,7 @@ public:
 	}
 
 	/**
-	 * Ê¹ÓÃ stringstream µÄÍ¨ÓÃ½âÎöÆ÷×¢²áº¯Êı
+	 * ä½¿ç”¨ stringstream çš„é€šç”¨è§£æå™¨æ³¨å†Œå‡½æ•°
 	 */
 	template <typename T>
 	void RegisterParser() {
@@ -53,17 +53,17 @@ public:
 				return false;
 			}
 
-			// GetPropertyFromString »á¼ì²âÀàĞÍÓëÈ¨ÏŞÊÇ·ñÆ¥Åä
-			// Òò´ËÕâÀïÖ±½ÓÊ¹ÓÃ UnsafeSet
+			// GetPropertyFromString ä¼šæ£€æµ‹ç±»å‹ä¸æƒé™æ˜¯å¦åŒ¹é…
+			// å› æ­¤è¿™é‡Œç›´æ¥ä½¿ç”¨ UnsafeSet
 			pro->UnsafeSet<T>(tmp);
 			return true;
 		});
 	}
 
 	/**
-	 * ½« str ÖĞµÄÊı¾İ×ª»»¶ÁÈ¡µ½Ö¸¶¨µÄÊôĞÔÖĞ
+	 * å°† str ä¸­çš„æ•°æ®è½¬æ¢è¯»å–åˆ°æŒ‡å®šçš„å±æ€§ä¸­
 	 *
-	 * @return ÊÇ·ñ¶ÁÈ¡³É¹¦
+	 * @return æ˜¯å¦è¯»å–æˆåŠŸ
 	 */
 	bool SetPropertyByString(DyBasicProperty *pro, const String &str);
 	bool SetPropertyByString(Object *obj, const String &proname, const String &str);

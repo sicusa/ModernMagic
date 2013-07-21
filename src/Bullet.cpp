@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 #include "Bullet.h"
 #include "Timeline.h"
@@ -6,16 +6,14 @@
 MM_BEGIN
 
 Bullet::Bullet():
-	_type(nullptr), _colReBoard(nullptr),
-	_renderRadius(0.5f)
+	_type(nullptr), _colReBoard(nullptr)
 {
 	this->InitProperties();
 }
 
 Bullet::Bullet(const Bullet &other):
 	Body(other),
-	_type(other._type), _colReBoard(other._colReBoard),
-	_renderRadius(other._renderRadius)
+	_type(other._type), _colReBoard(other._colReBoard)
 {
 	this->InitProperties();
 }
@@ -26,7 +24,6 @@ void Bullet::InitProperties()
 		"Type",
 		std::bind(&Bullet::SetType, this, std::placeholders::_1)
 	);
-	this->RegisterProperty("RenderRadius", &_renderRadius);
 }
 
 MM_IMPL_CLONE(Bullet)

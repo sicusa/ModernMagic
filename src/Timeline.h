@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "ObjectManager.h"
 #include "Action.h"
@@ -113,10 +113,10 @@ public:
 	
 public:
 	// 循环的次数
-	MM_PROPERTY_PBV(size_t, _loopNumber, LoopNumber)
+	MM_PROPERTY_PBV(int, _loopNumber, LoopNumber)
 	
 	// 累计的循环次数
-	MM_PROPERTY_PBV(size_t, _cumNumber, CumulativeNumber)
+	MM_PROPERTY_PBV(int, _cumNumber, CumulativeNumber)
 	
 private:
 	void InitProperties();
@@ -136,7 +136,6 @@ public:
 	virtual void SetRootTimeline(Timeline *tl) override;
 	
 protected:
-	virtual void OnCloneObject  (Object*) override;
 	virtual bool OnAdd          (Object*) override;
 	virtual void OnRemove       (Object*) override;
 	virtual bool OnIterate      (Object*,float) override;
@@ -526,10 +525,13 @@ class CollisionSelector : public CallbackSelector
 	
 public:
 	CollisionSelector();
-	CollisionSelector(ICollider *collider);
+	CollisionSelector(const std::shared_ptr<ICollider> &collider);
 	CollisionSelector(const CollisionSelector &other);
 
 	MM_PROPERTY_PBR(std::shared_ptr<ICollider>, _collider, Collider)
+
+protected:
+	virtual bool OnInstalling() override;
 	
 private:
 	void InitProperties();
@@ -594,13 +596,28 @@ private:
 	virtual bool OnInstalling() override
 	{
 		auto rootobj = this->GetRootObject();
-		if (!rootobj)
+
+		if (!rootobj) {
+			MM_THROW InstallingError("ChangeProperty: Root Timeline 没有绑定到任何对象");
 			return false;
+		}
 
 		_property = rootobj->GetProperty(_proname);
+		if (!_property) {
+			MM_THROW InstallingError("ChangeProperty: '" + _proname + "' 属性没有找到");
+			return false;
+		}
+		if (typeid(T).hash_code() != _property->GetHash())  {
+			MM_THROW InstallingError(
+				"ChangeProperty: '" + _proname + "' 属性的类型与指定的类型不一致"
+			);
+			return false;
+		}
 
-		if (!_property || typeid(T).hash_code() != _property->GetHash() ||
-			_property->GetPermission() == PropertyPermission::Readonly) {
+		if (_property->GetPermission() == PropertyPermission::Readonly) {
+			MM_THROW InstallingError(
+				"ChangeProperty: '" + _proname + "' 属性为只读属性，无法修改"
+			);
 			return false;
 		}
 		return true;
@@ -792,23 +809,42 @@ private:
 protected:
 	virtual bool OnInstalling() override
 	{
-		if (!Animation::OnInstalling())
+		if (!Animation::OnInstalling()) {
 			return false;
+		}
 		
 		auto rootobj = this->GetRootObject();
-		if (!rootobj)
+		if (!rootobj) {
+			MM_THROW InstallingError("PropertyAnimation: Root Timeline 没有绑定到任何对象");
 			return false;
+		}
 
 		_property = rootobj->GetProperty(_proname);
+		if (!_property) {
+			MM_THROW InstallingError("PropertyAnimation: '" + _proname + "' 属性没有找到");
+			return false;
+		}
+		if (typeid(T).hash_code() != _property->GetHash())  {
+			MM_THROW InstallingError(
+				"PropertyAnimation: '" + _proname + "' 属性的类型与 PropertyAnimation 指定的类型不一致"
+			);
+			return false;
+		}
 		
-		if (!_property || typeid(T).hash_code() != _property->GetHash() ||
-			_property->GetPermission() == PropertyPermission::Readonly) {
+		if (_property->GetPermission() == PropertyPermission::Readonly) {
+			MM_THROW InstallingError(
+				"PropertyAnimation: '" + _proname + "' 属性为只读属性，无法修改"
+			);
 			return false;
 		}
 		if (!_isSetStart) {
-			if (_property->GetPermission() != PropertyPermission::ReadAndWrite)
+			if (_property->GetPermission() != PropertyPermission::ReadAndWrite) {
+				MM_THROW InstallingError(
+					"PropertyAnimation: 因为 PropertyAnimation 没有设置参数 'From'，'"
+					+ _proname + "' 属性被要求可读且可写"
+				);
 				return false;
-
+			}
 			_interval.SetStart(_property->UnsafeGet<T>());
 		}
 		return true;

@@ -90,9 +90,6 @@
     <ClCompile Include="..\src\Infrastructure\DynamicProperty.cpp">
       <Filter>ModernMagic\Infrastructure</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\Infrastructure\Exceptions.cpp">
-      <Filter>ModernMagic\Infrastructure</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\Infrastructure\Interval.cpp">
       <Filter>ModernMagic\Infrastructure</Filter>
     </ClCompile>
@@ -115,6 +112,9 @@
       <Filter>ModernMagic\Infrastructure</Filter>
     </ClCompile>
     <ClCompile Include="..\src\stdafx.cpp">
+      <Filter>ModernMagic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Exceptions.cpp">
       <Filter>ModernMagic</Filter>
     </ClCompile>
   </ItemGroup>
@@ -185,9 +185,6 @@
     <ClInclude Include="..\src\Infrastructure\DynamicProperty.h">
       <Filter>ModernMagic\Infrastructure</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\Infrastructure\Exceptions.h">
-      <Filter>ModernMagic\Infrastructure</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\Infrastructure\Interval.h">
       <Filter>ModernMagic\Infrastructure</Filter>
     </ClInclude>
@@ -213,6 +210,9 @@
       <Filter>ModernMagic\Infrastructure</Filter>
     </ClInclude>
     <ClInclude Include="..\src\stdafx.h">
+      <Filter>ModernMagic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Exceptions.h">
       <Filter>ModernMagic</Filter>
     </ClInclude>
   </ItemGroup>

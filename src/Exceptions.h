@@ -1,6 +1,6 @@
-#pragma once
+﻿#pragma once
 
-#include "../Util/StringUtil.h"
+#include "Util/StringUtil.h"
 
 #include <exception>
 
@@ -23,11 +23,15 @@ public:
 		return _message.c_str();
 	}
 
+	const String &str() const throw() {
+		return _message;
+	}
+
 private:
 	String _message;
 };
 
-MM_DEF_BASIC_EXCEPTION(InstallingFailure);
+MM_DEF_BASIC_EXCEPTION(InstallingError);
 MM_DEF_BASIC_EXCEPTION(UnimplementedCloneException);
 MM_DEF_BASIC_EXCEPTION(UnimplementedDestroyException);
 MM_DEF_BASIC_EXCEPTION(UnknownBodyType);

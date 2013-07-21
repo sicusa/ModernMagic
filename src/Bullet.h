@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "Body.h"
 #include "BodyTypeManager.h"
@@ -52,11 +52,6 @@ public:
 	 * 不需要手动修改
 	 */
 	MM_PROPERTY_PBV(ReboundBoard*, _colReBoard, CollidedReboundBoard)
-	
-	/**
-	 * 渲染半径
-	 */
-	MM_PROPERTY_PBV(float, _renderRadius, RenderRadius)
 
 private:
 	void InitProperties();

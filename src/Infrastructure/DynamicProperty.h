@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "Exceptions.h"
 #include <unordered_map>
@@ -162,11 +162,11 @@ class DyPropertyClass
 {
 public:
 	typedef std::unordered_map<String, DyBasicProperty*> PropertyContainer;
-	typedef std::unordered_map<String, PropertyInfo*>    PropertyInfoContainer;
+	typedef std::unordered_map<String, std::auto_ptr<PropertyInfo> >    PropertyInfoContainer;
 
 	DyPropertyClass();
 	DyPropertyClass(const DyPropertyClass &other);
-	virtual ~DyPropertyClass() { this->ClearProperties(); }
+	~DyPropertyClass() { this->ClearProperties(); }
 
 	void ClearProperties() {
 		for (auto each : _pros) {

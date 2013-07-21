@@ -165,16 +165,10 @@ protected: // ÒýÇæÏûÏ¢
 			auto body = static_cast<Body*>(each);
 			auto &pos = body->GetPosition();
 			auto &color = body->GetColor();
+			auto rr = static_cast<Bullet*>(body)->GetScale();
 
 			m_sprite->SetColor(fcyColor(body->GetOpacity(), color.R, color.G, color.B));
-
-			fcyVec2 scale(1.0f, 1.0f);
-
-			if (body->IsBullet()) {
-				auto rr = static_cast<Bullet*>(body)->GetRenderRadius();
-				scale.x = scale.y = rr;
-			}
-			m_sprite->Draw(m_pGraph2D, *reinterpret_cast<const fcyVec2*>(&pos), scale, body->GetRadian());
+			m_sprite->Draw(m_pGraph2D, *reinterpret_cast<const fcyVec2*>(&pos), fcyVec2(rr, rr), body->GetRadian());
 		}
 
 		m_pGraph2D->End();
@@ -187,10 +181,13 @@ public:
 	MyApp()
 	{
 		m_paused = false;
-
+		/*
 		m_role = theMMBodyUpdater.Add(new Bullet());
-		m_role->SetPosition(512.f, 384.f);
-
+		m_role->SetPosition(512.f, 484.f);
+		m_role->SetRadius(22);
+		m_role->SetScale(0.8f);
+		m_role->SetColor(Colors::Cyan);
+		*/
 		auto emitter = theMMActionUpdater.Add(new AnnularEmitter());
 
 		auto probody = Object::MakeShared(theMMClassFactory.CreateObject<Bullet>("Bullet"));
@@ -199,20 +196,20 @@ public:
 		theMMPropertyHelper.SetPropertyByString(probody.get(), "Color",    "0 0 255");
 		theMMPropertyHelper.SetPropertyByString(probody.get(), "Position", "512 384");
 		theMMPropertyHelper.SetPropertyByString(probody.get(), "Opacity",  "0.5");
-		theMMPropertyHelper.SetPropertyByString(probody.get(), "Radius",   "22");
-		theMMPropertyHelper.SetPropertyByString(probody.get(), "RenderRadius", "1");
+		theMMPropertyHelper.SetPropertyByString(probody.get(), "Radius",   "20");
+		theMMPropertyHelper.SetPropertyByString(probody.get(), "Scale",	   "1");
 		theMMPropertyHelper.SetPropertyByString(probody.get(), "IsDestoryWhenTimelineEnd", "true");
 
 		auto btl = probody->AppliedTimeline();
-		btl->Add(new ActionSleep(3.5f));
+		btl->Add(new ActionSleep(4.5f));
 
 		auto ag = btl->Add(new ActionGroup());
-		ag->Add(new AnimateTo<float>("RenderRadius", 2.0f, 0.5f, IF_ExponentialOut));
+		ag->Add(new AnimateTo<float>("Scale", 2.0f, 0.5f, IF_ExponentialOut));
 		ag->Add(new AnimateTo<float>("Opacity", 0.0f, 0.5f, IF_ExponentialOut));
 
 		emitter->SetPrototype(probody);
-		emitter->SetWayNumber(10);
-		emitter->SetInterval(0.1f);
+		emitter->SetWayNumber(8);
+		emitter->SetInterval(0.18f);
 		emitter->SetEmittedNumber(-1);
 
 		auto emitterBodyTL = theMMActionUpdater.Add(new LoopTimeline(-1));
@@ -230,10 +227,11 @@ public:
 
 		auto emitter2 = theMMActionUpdater.Add(new BodyEmitter());
 
+		emitter2->SetInterval(0.01f);
+		emitter2->SetEmittedNumber(-1);
 		emitter2->SetPrototype(probody);
-		emitter2->SetOnBodyCreated([](BodyEmitter *sender, Body *body) {
-			body->SetSpeed(MathUtil::RandomFloatInRange(100.f, 200.f));
 
+		emitter2->SetOnBodyCreated([](BodyEmitter *sender, Body *body) {
 			static const Color colors[] = {
 				Colors::Red, Colors::Green, Colors::Blue, Colors::BeachSand, Colors::Cyan, Colors::PureGreen,
 				Colors::PureYellowGreen, Colors::DesertSand, Colors::Magenta,
@@ -241,11 +239,14 @@ public:
 			};
 
 			body->SetColor(colors[MathUtil::RandomInt(sizeof(colors) / sizeof(Color))]);
-			body->SetOpacity(MathUtil::RandomFloat(0.8f));
+			body->SetSpeed(MathUtil::RandomFloatInRange(100.f, 200.f));
+			body->SetOpacity(MathUtil::RandomFloatInRange(0.2f, 0.8f));
 			body->SetAngle(MathUtil::RandomFloat(360.0f));
+
+			ActionSleep *as = static_cast<ActionSleep*>(body->GetAppliedTimeline()->GetActions()[0]);
+			as->SetDelayTime(2.0f);
 		});
-		emitter2->SetInterval(0.03f);
-		emitter2->SetEmittedNumber(-1);
+		
 		/*
 		Segment segs[] = {
 		Segment(0,  0,  1024,  0),
@@ -257,10 +258,10 @@ public:
 		for (auto &each : segs) {
 		ReboundBoard *rb = new ReboundBoard(each);
 		theMMActionUpdater.Add(rb);
-		}*/
+		}
+		*/
 
 		theMMEngine.SetWorldBox(BoundingBox(Vector2(-50, -50), Vector2(1024+50, 768+50)));
-		theMMEngine.Start();
 
 		struct : public f2dInitialErrListener {
 			void OnErr(fuInt TimeTick, fcStr Src, fcStr Desc)
@@ -361,7 +362,7 @@ int main()
 {
 #ifdef _DEBUG
 	_CrtSetDbgFlag(_CrtSetDbgFlag(_CRTDBG_REPORT_FLAG) | _CRTDBG_LEAK_CHECK_DF);
-	// _CrtSetBreakAlloc(5351);
+	// _CrtSetBreakAlloc(1310);
 #endif
 	MyApp tApp;
 

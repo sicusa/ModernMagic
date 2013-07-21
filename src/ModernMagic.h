@@ -1,11 +1,10 @@
-#pragma once
+﻿#pragma once
 
 #include "Infrastructure/BoundingShapes.h"
 #include "Infrastructure/Color.h"
 #include "Infrastructure/DynamicProperty.h"
 #include "Infrastructure/PropertyHelper.h"
 #include "Infrastructure/ClassFactory.h"
-#include "Infrastructure/Exceptions.h"
 #include "Infrastructure/Interval.h"
 #include "Infrastructure/MemoryPool.h"
 #include "Infrastructure/Ray2.h"
@@ -31,3 +30,4 @@
 #include "Segment.h"
 #include "Collider.h"
 #include "Engine.h"
+#include "Exceptions.h"

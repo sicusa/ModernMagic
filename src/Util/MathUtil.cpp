@@ -148,7 +148,7 @@ Vector2 MathUtil::RandomVector(const Vector2& minValues, const Vector2& maxValue
 
 bool __poissonFieldCheck(Vector2List list, Vector2 point, float minDist)
 {
-	for (int i=0; i < list.size(); i++) {
+	for (size_t i=0; i < list.size(); i++) {
 		if (Vector2::DistanceSquared(list[i], point) < minDist)
 		{
 			return true;
