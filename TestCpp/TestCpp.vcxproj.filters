@@ -28,13 +28,16 @@
     <Filter Include="ModernMagic\Spellbook">
       <UniqueIdentifier>{de2d966f-6b09-4601-80fb-fb27d5a4a7fc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ModernMagic\Timeline">
+      <UniqueIdentifier>{39449ce1-da79-4886-9f5f-b2e0adc31e4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ModernMagic\Spellbook\Rapidxml">
+      <UniqueIdentifier>{64619d43-cc02-4d92-a362-74624d08e779}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
       <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\Action.cpp">
-      <Filter>ModernMagic</Filter>
     </ClCompile>
     <ClCompile Include="..\src\Body.cpp">
       <Filter>ModernMagic</Filter>
@@ -55,9 +58,6 @@
       <Filter>ModernMagic</Filter>
     </ClCompile>
     <ClCompile Include="..\src\ObjectManager.cpp">
-      <Filter>ModernMagic</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\Timeline.cpp">
       <Filter>ModernMagic</Filter>
     </ClCompile>
     <ClCompile Include="..\src\Util\FileUtil.cpp">
@@ -81,22 +81,13 @@
     <ClCompile Include="..\src\Infrastructure\BoundingShapes.cpp">
       <Filter>ModernMagic\Infrastructure</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\Infrastructure\ClassFactory.cpp">
-      <Filter>ModernMagic\Infrastructure</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\Infrastructure\Color.cpp">
-      <Filter>ModernMagic\Infrastructure</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\Infrastructure\DynamicProperty.cpp">
       <Filter>ModernMagic\Infrastructure</Filter>
     </ClCompile>
     <ClCompile Include="..\src\Infrastructure\Interval.cpp">
       <Filter>ModernMagic\Infrastructure</Filter>
     </ClCompile>
     <ClCompile Include="..\src\Infrastructure\MemoryPool.cpp">
-      <Filter>ModernMagic\Infrastructure</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\Infrastructure\PropertyHelper.cpp">
       <Filter>ModernMagic\Infrastructure</Filter>
     </ClCompile>
     <ClCompile Include="..\src\Infrastructure\Ray2.cpp">
@@ -117,11 +108,32 @@
     <ClCompile Include="..\src\Exceptions.cpp">
       <Filter>ModernMagic</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\Spellbook\Spellbook.cpp">
+      <Filter>ModernMagic\Spellbook</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Spellbook\SpellbookLoader.cpp">
+      <Filter>ModernMagic\Spellbook</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\DynamicProperty.cpp">
+      <Filter>ModernMagic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\PropertyHelper.cpp">
+      <Filter>ModernMagic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Timeline\Action.cpp">
+      <Filter>ModernMagic\Timeline</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Timeline\Timeline.cpp">
+      <Filter>ModernMagic\Timeline</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Timeline\Components.cpp">
+      <Filter>ModernMagic\Timeline</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ObjectCreator.cpp">
+      <Filter>ModernMagic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\Action.h">
-      <Filter>ModernMagic</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\Body.h">
       <Filter>ModernMagic</Filter>
     </ClInclude>
@@ -149,9 +161,6 @@
     <ClInclude Include="..\src\ObjectManager.h">
       <Filter>ModernMagic</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\Timeline.h">
-      <Filter>ModernMagic</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\Util\FileUtil.h">
       <Filter>ModernMagic\Util</Filter>
     </ClInclude>
@@ -173,25 +182,16 @@
     <ClInclude Include="..\src\Infrastructure\BoundingShapes.h">
       <Filter>ModernMagic\Infrastructure</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\Infrastructure\ClassFactory.h">
-      <Filter>ModernMagic\Infrastructure</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\Infrastructure\Color.h">
       <Filter>ModernMagic\Infrastructure</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Infrastructure\Common.h">
       <Filter>ModernMagic\Infrastructure</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\Infrastructure\DynamicProperty.h">
-      <Filter>ModernMagic\Infrastructure</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\Infrastructure\Interval.h">
       <Filter>ModernMagic\Infrastructure</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Infrastructure\MemoryPool.h">
-      <Filter>ModernMagic\Infrastructure</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Infrastructure\PropertyHelper.h">
       <Filter>ModernMagic\Infrastructure</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Infrastructure\Ray2.h">
@@ -215,10 +215,44 @@
     <ClInclude Include="..\src\Exceptions.h">
       <Filter>ModernMagic</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\Spellbook\Spellbook.h">
+      <Filter>ModernMagic\Spellbook</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Spellbook\SpellbookLoader.h">
+      <Filter>ModernMagic\Spellbook</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\DynamicProperty.h">
+      <Filter>ModernMagic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\PropertyHelper.h">
+      <Filter>ModernMagic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Timeline\Action.h">
+      <Filter>ModernMagic\Timeline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Timeline\Timeline.h">
+      <Filter>ModernMagic\Timeline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Spellbook\Rapidxml\rapidxml.hpp">
+      <Filter>ModernMagic\Spellbook\Rapidxml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Spellbook\Rapidxml\rapidxml_iterators.hpp">
+      <Filter>ModernMagic\Spellbook\Rapidxml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Spellbook\Rapidxml\rapidxml_print.hpp">
+      <Filter>ModernMagic\Spellbook\Rapidxml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Spellbook\Rapidxml\rapidxml_utils.hpp">
+      <Filter>ModernMagic\Spellbook\Rapidxml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Timeline\Components.h">
+      <Filter>ModernMagic\Timeline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ObjectCreator.h">
+      <Filter>ModernMagic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="DemoRes\Scripts\Test.spellbook.xml">
-      <Filter>资源文件</Filter>
-    </Xml>
+    <Xml Include="Resources\Scripts\Test.spellbook.xml" />
   </ItemGroup>
 </Project>

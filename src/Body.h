@@ -80,11 +80,6 @@ public:
 	 * 角度
 	 */
 	MM_PROPERTY_PBV_US(float, _angle, Angle)
-
-	/**
-	 * 缓存的弧度
-	 */
-	MM_PROPERTY_PBV_NS(float, _radian, Radian)
 	
 	/**
 	 * 速度
@@ -118,6 +113,9 @@ public:
 	
 	/**
 	 * Body 应用的时间轴
+	 * [注意：拷贝 Body 也会造成 Applied Timeline 的拷贝
+	 *        一般情况下请不要为大量发射的子弹设置时间轴
+	          而是将所有要控制的 Body 交由 TimerListener（Action） 管理]
 	 */
 	MM_PROPERTY_PBV_US(Timeline*, _appliedTimeline, AppliedTimeline)
 

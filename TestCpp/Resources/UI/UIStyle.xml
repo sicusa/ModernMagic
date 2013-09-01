@@ -1,0 +1,5 @@
+<fancyUIStyle>
+  <Font Name="Inconsolata"
+  	    FontSrc="Fonts\Inconsolata.otf"
+  	    FontSize="24,24"/>
+</fancyUIStyle>

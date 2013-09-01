@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "Exceptions.h"
-#include "Infrastructure/DynamicProperty.h"
+#include "DynamicProperty.h"
 
 /**
  * MM_TAG_CLONEABLE 用以支持 Object 派生类的 Clone 函数实现。
@@ -104,16 +104,15 @@ public:
 
 	template <typename T>
 	static std::shared_ptr<T> MakeShared() {
-		return std::shared_ptr<T>(new T(), Object::destoryObject);
+		return std::shared_ptr<T>(new T(), Object::DestroyObject);
 	}
 
 	template <typename T>
 	static std::shared_ptr<T> MakeShared(T *ptr) {
-		return std::shared_ptr<T>(ptr, Object::destoryObject);
+		return std::shared_ptr<T>(ptr, Object::DestroyObject);
 	}
 
-private:
-	static void destoryObject(Object *ptr) {
+	static void DestroyObject(Object *ptr) {
 		ptr->Destroy();
 	}
 };

@@ -1,10 +1,10 @@
 ﻿#include "stdafx.h"
 
 #include "Body.h"
-#include "Timeline.h"
 #include "Engine.h"
 
 #include "Util/MathUtil.h"
+#include "Timeline/Timeline.h"
 
 #include <math.h>
 
@@ -12,7 +12,7 @@ MM_BEGIN
 
 Body::Body():
 	_texture(-1), _layer(0), _scale(1.0f),
-	_radius(0.0f), _angle(0.0f), _radian(0.0f), _speed(0.0f),
+	_radius(0.0f), _angle(0.0f), _speed(0.0f),
 	_angleAddition(0.0f), _speedAddition(0.0f),
 	_isFrozen(false),
 	_destroyWhenMoveOffScreen(true),
@@ -29,7 +29,7 @@ Body::Body(const Body &other):
 	_position(other._position),
 	_texture(other._texture),
 	_color(other._color), _layer(other._layer), _scale(other._scale),
-	_radius(other._radius), _angle(other._angle), _radian(other._radian), _speed(other._speed),
+	_radius(other._radius), _angle(other._angle), _speed(other._speed),
 	_angleAddition(other._angleAddition), _speedAddition(other._speedAddition),
 	_isFrozen(other._isFrozen), 
 	_destroyWhenMoveOffScreen(other._destroyWhenMoveOffScreen),
@@ -119,14 +119,14 @@ void Body::SetAngle(float v)
 	while (_angle >= 360.0f) {
 		_angle -= 360.0f;
 	}
-	_radian = _angle * MathUtil::Pi / 180.0f;
 	_isNeedToCal = true;
 }
 
 void Body::Calculate()
 {
-	_calculatedOffset.X = _speed * sin(_radian);
-	_calculatedOffset.Y = -_speed * cos(_radian);
+	float radian = _angle * MathUtil::Pi / 180.0f;
+	_calculatedOffset.X = _speed * sin(radian);
+	_calculatedOffset.Y = -_speed * cos(radian);
 }
 
 bool Body::OnInstalling()

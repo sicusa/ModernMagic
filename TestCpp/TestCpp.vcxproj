@@ -11,20 +11,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\Action.cpp" />
     <ClCompile Include="..\src\Body.cpp" />
     <ClCompile Include="..\src\Bullet.cpp" />
     <ClCompile Include="..\src\Collider.cpp" />
+    <ClCompile Include="..\src\DynamicProperty.cpp" />
     <ClCompile Include="..\src\Engine.cpp" />
     <ClCompile Include="..\src\Exceptions.cpp" />
     <ClCompile Include="..\src\Infrastructure\BezierCurve.cpp" />
     <ClCompile Include="..\src\Infrastructure\BoundingShapes.cpp" />
-    <ClCompile Include="..\src\Infrastructure\ClassFactory.cpp" />
     <ClCompile Include="..\src\Infrastructure\Color.cpp" />
-    <ClCompile Include="..\src\Infrastructure\DynamicProperty.cpp" />
     <ClCompile Include="..\src\Infrastructure\Interval.cpp" />
     <ClCompile Include="..\src\Infrastructure\MemoryPool.cpp" />
-    <ClCompile Include="..\src\Infrastructure\PropertyHelper.cpp" />
     <ClCompile Include="..\src\Infrastructure\Ray2.cpp" />
     <ClCompile Include="..\src\Infrastructure\Segment.cpp" />
     <ClCompile Include="..\src\Infrastructure\Vector2.cpp" />
@@ -33,31 +30,34 @@
     <ClCompile Include="..\src\Messaging\Message.cpp" />
     <ClCompile Include="..\src\Messaging\Switchboard.cpp" />
     <ClCompile Include="..\src\Object.cpp" />
+    <ClCompile Include="..\src\ObjectCreator.cpp" />
     <ClCompile Include="..\src\ObjectManager.cpp" />
+    <ClCompile Include="..\src\PropertyHelper.cpp" />
+    <ClCompile Include="..\src\Spellbook\Spellbook.cpp" />
+    <ClCompile Include="..\src\Spellbook\SpellbookLoader.cpp" />
     <ClCompile Include="..\src\stdafx.cpp" />
-    <ClCompile Include="..\src\Timeline.cpp" />
+    <ClCompile Include="..\src\Timeline\Action.cpp" />
+    <ClCompile Include="..\src\Timeline\Components.cpp" />
+    <ClCompile Include="..\src\Timeline\Timeline.cpp" />
     <ClCompile Include="..\src\Util\FileUtil.cpp" />
     <ClCompile Include="..\src\Util\MathUtil.cpp" />
     <ClCompile Include="..\src\Util\StringUtil.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\Action.h" />
     <ClInclude Include="..\src\Body.h" />
     <ClInclude Include="..\src\BodyTypeManager.h" />
     <ClInclude Include="..\src\Bullet.h" />
     <ClInclude Include="..\src\Collider.h" />
+    <ClInclude Include="..\src\DynamicProperty.h" />
     <ClInclude Include="..\src\Engine.h" />
     <ClInclude Include="..\src\Exceptions.h" />
     <ClInclude Include="..\src\Infrastructure\BezierCurve.h" />
     <ClInclude Include="..\src\Infrastructure\BoundingShapes.h" />
-    <ClInclude Include="..\src\Infrastructure\ClassFactory.h" />
     <ClInclude Include="..\src\Infrastructure\Color.h" />
     <ClInclude Include="..\src\Infrastructure\Common.h" />
-    <ClInclude Include="..\src\Infrastructure\DynamicProperty.h" />
     <ClInclude Include="..\src\Infrastructure\Interval.h" />
     <ClInclude Include="..\src\Infrastructure\MemoryPool.h" />
-    <ClInclude Include="..\src\Infrastructure\PropertyHelper.h" />
     <ClInclude Include="..\src\Infrastructure\Ray2.h" />
     <ClInclude Include="..\src\Infrastructure\Segment.h" />
     <ClInclude Include="..\src\Infrastructure\VecStructs.h" />
@@ -68,15 +68,27 @@
     <ClInclude Include="..\src\Messaging\Switchboard.h" />
     <ClInclude Include="..\src\ModernMagic.h" />
     <ClInclude Include="..\src\Object.h" />
+    <ClInclude Include="..\src\ObjectCreator.h" />
     <ClInclude Include="..\src\ObjectManager.h" />
+    <ClInclude Include="..\src\PropertyHelper.h" />
+    <ClInclude Include="..\src\Spellbook\Rapidxml\rapidxml.hpp" />
+    <ClInclude Include="..\src\Spellbook\Rapidxml\rapidxml_iterators.hpp" />
+    <ClInclude Include="..\src\Spellbook\Rapidxml\rapidxml_print.hpp" />
+    <ClInclude Include="..\src\Spellbook\Rapidxml\rapidxml_utils.hpp" />
+    <ClInclude Include="..\src\Spellbook\Spellbook.h" />
+    <ClInclude Include="..\src\Spellbook\SpellbookLoader.h" />
     <ClInclude Include="..\src\stdafx.h" />
-    <ClInclude Include="..\src\Timeline.h" />
+    <ClInclude Include="..\src\Timeline\Action.h" />
+    <ClInclude Include="..\src\Timeline\Components.h" />
+    <ClInclude Include="..\src\Timeline\Timeline.h" />
     <ClInclude Include="..\src\Util\FileUtil.h" />
     <ClInclude Include="..\src\Util\MathUtil.h" />
     <ClInclude Include="..\src\Util\StringUtil.h" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="DemoRes\Scripts\Test.spellbook.xml" />
+    <Xml Include="Resources\Scripts\Test.spellbook.xml">
+      <SubType>Designer</SubType>
+    </Xml>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B9FE8302-73C5-4ED3-B833-DE47154010A3}</ProjectGuid>

@@ -14,7 +14,6 @@ class Bullet : public Body
 	MM_TAG_CLONEABLE_UNIMPL
 	MM_TAG_DESTROYABLE_UNIMPL
 	MM_TAG_ENABLE_TYPE(Bullet)
-	MM_TAG_OVERRIDE_UPDATE
 	
 public:
 	friend class Engine;

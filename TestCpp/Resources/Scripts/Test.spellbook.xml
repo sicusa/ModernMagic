@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Spellbook>
+    
+    <!--定义引擎资源-->
+    <Resource>
+        <BulletType Name="TestBullet"
+                    Speed="100"
+			        Position="0 0"
+			        Opacity="0.5"
+			        Color="0 0 255"
+                    />
+        <Bullet Name="ProBullet"
+                Type="TestBullet"
+                />
+    </Resource>
+        
+    <!--主时间轴-->
+    <MainTimeline>
+        <AnnularEmitter Name="Emitter1"
+                        WayNumber="10"
+                        Interval="0.1"
+                        EmittedNumber="-1"
+                        />
+        <Emitter Name="Emitter2"
+                    Interval="0.03"
+                    EmittedNumber="-1"
+                    />
+    </MainTimeline>
+
+    <!--全局 Actions-->
+    <ActionUpdater>
+        <Timeline BindTo="ProBody">
+            <AnimateBy Property="Angle"
+                        To="360"
+                        Duration="0.8"
+                        Effect="Linear"/>
+        </Timeline>
+
+        <Timeline BindTo="ProBody">
+            <AnimateTo Property="Color"
+                        To="Red"
+                        Duration="2.0"
+                        Effect="Smooth"
+                        />
+            <AnimateTo Property="Color"
+                        To="Green"
+                        Duration="2.0"
+                        Effect="Smooth"
+                        />
+            <AnimateTo Property="Color"
+                        To="Blue"
+                        Duration="2.0"
+                        Effect="Smooth"
+                        />
+        </Timeline>
+    </ActionUpdater>
+    
+</Spellbook>

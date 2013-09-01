@@ -82,7 +82,7 @@ bool StringToBool (const String& s)
 
 Vector2 StringToVector2( const String& s )
 {
-	StringList split = SplitString(s);
+	StringList split = SplitString(s, ",");
 	Vector2 retVal;
 
 	if( split.size() > 0 )
@@ -117,7 +117,7 @@ String BoolToString( bool val )
 
 String Vector2ToString( const Vector2& val )
 {
-	return FloatToString( val.X ) + " " + FloatToString( val.Y );
+	return FloatToString( val.X ) + "," + FloatToString( val.Y );
 }
 
 

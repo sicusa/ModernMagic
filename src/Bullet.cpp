@@ -1,7 +1,9 @@
 ﻿#include "stdafx.h"
 
 #include "Bullet.h"
-#include "Timeline.h"
+
+#include "Timeline/Timeline.h"
+#include "Infrastructure/Segment.h"
 
 MM_BEGIN
 
@@ -54,14 +56,6 @@ bool Bullet::IsCollided(const Vector2 &pos, float r) const
 bool Bullet::IsCollided(const Segment &seg) const
 {
 	return seg.Intersects(this->GetPosition(), this->GetRadius());
-}
-
-MM_IMPL_UPDATE(Bullet, dt)
-{
-	if (_colReBoard && !_colReBoard->GetSegment().Intersects(this->GetPosition(), this->GetRadius()))
-		_colReBoard = nullptr;
-	
-	return Body::Update(dt);
 }
 
 MM_END

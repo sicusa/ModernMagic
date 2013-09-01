@@ -123,7 +123,7 @@
 #endif
 
 #ifndef MM_BULLET_CACHE_SIZE
-#define MM_BULLET_CACHE_SIZE 10000
+#define MM_BULLET_CACHE_SIZE 2000
 #endif
 
 MM_BEGIN
@@ -145,6 +145,9 @@ class Laser;
 class Action;
 class Timeline;
 class LoopTimeline;
+
+class Spellbook;
+class SpellbookReader;
 
 enum
 {

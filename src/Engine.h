@@ -1,14 +1,13 @@
 ﻿#pragma once
 
-#include "ObjectManager.h"
-#include "Timeline.h"
-
+#include "Spellbook/Spellbook.h"
 #include "Infrastructure/BoundingShapes.h"
 
-#define theMMEngine ::ModernMagic::Engine::GetInstance()
-#define theMMMainTimeline  theMMEngine.MainTimeline()
-#define theMMBodyUpdater   theMMEngine.BodyUpdater()
-#define theMMActionUpdater theMMEngine.ActionUpdater()
+#define theMMEngine			::ModernMagic::Engine::GetInstance()
+#define theMMMainTimeline	theMMEngine.MainTimeline()
+#define theMMBodyUpdater	theMMEngine.BodyUpdater()
+#define theMMActionUpdater	theMMEngine.ActionUpdater()
+#define theMMNamedObjects	theMMEngine.NamedObjects()
 
 MM_BEGIN
 
@@ -17,42 +16,50 @@ class Action;
 
 class Engine : public Object
 {
+	MM_TAG_DESTROYABLE
+
 public:
-	static Engine &GetInstance()
-	{
+	static Engine &GetInstance() {
 		static Engine e;
 		return e;
 	}
+
+	~Engine();
 	
 	MM_PROPERTY_PBR(BoundingBox, _worldbox,	WorldBox)
 
 	Timeline &MainTimeline() {
-		return _mainTimeline;
+		return _sb->MainTimeline();
 	}
 	
 	ObjectUpdater<Body> &BodyUpdater() {
-		return _bodyUpdater;
+		return _sb->BodyUpdater();
 	}
 	
 	ObjectUpdater<Action> &ActionUpdater() {
-		return _actionUpdater;
+		return _sb->ActionUpdater();
 	}
-	
+
+	/**
+	 * 获取所有的被命名的对象
+	 */
+	std::unordered_map<String, Object*> &NamedObjects() {
+		return _namedObjects;
+	}
+
+	void SetSpellbook(Spellbook *sb, bool isDestoryOld = true);
 	void Update(float dt);
 
 	virtual Object *Clone() override {
 		return static_cast<const Object*>(this)->Clone();
 	}
 	virtual Object *Clone() const override;
-	virtual void Destroy() override;
 
-protected:
-	Engine();
-	
 private:
-	Timeline                _mainTimeline;
-	ObjectUpdater<Body>     _bodyUpdater;
-	ObjectUpdater<Action>   _actionUpdater;
+	Engine();
+
+	Spellbook *_sb;
+	std::unordered_map<String, Object*> _namedObjects;
 };
 
 MM_END

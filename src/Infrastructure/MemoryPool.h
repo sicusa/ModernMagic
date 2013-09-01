@@ -50,15 +50,48 @@ public:
         return pool;
     }
     
-    T* Malloc() { return static_cast<T*>(malloc(sizeof(T))); }
-    T* Construct() { return new T(); }
+    T *Malloc() {
+		if (_allowedObj.empty()) {
+			return static_cast<T*>(malloc(sizeof(T)));
+		}
+		else {
+			T *ptr = *(_allowedObj.end() - 1);
+			_allowedObj.pop_back();
+			return ptr;
+		}
+	}
+    T *Construct() {
+		T *ptr = this->Malloc();
+		try {
+			new (ptr) T();
+		}
+		catch (...) {
+			if (ptr) {
+				this->Delete(ptr);
+			}
+			throw;
+		}
+		return ptr;
+	}
+
+	T *Construct(const T &other) {
+		T *ptr = this->Malloc();
+		try {
+			new (ptr) T(other);
+		}
+		catch (...) {
+			if (ptr) {
+				this->Delete(ptr);
+			}
+			throw;
+		}
+		return ptr;
+	}
     
-    template <typename Arg>
-    T* Construct(Arg &&arg) {
-        return new T(std::forward<Arg>(arg));
-    }
-    
-    void Delete(T *ptr) { delete ptr; }
+    void Delete(T *ptr) {
+		ptr->T::~T();
+		_allowedObj.push_back(ptr);
+	}
     
 protected:
     MemoryPool()
@@ -66,7 +99,7 @@ protected:
     }
 
 private:
-    //boost::object_pool<T> _pool;
+    std::vector<T*> _allowedObj;
 };
 
 #endif

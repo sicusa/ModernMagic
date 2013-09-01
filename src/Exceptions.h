@@ -31,13 +31,24 @@ private:
 	String _message;
 };
 
-MM_DEF_BASIC_EXCEPTION(InstallingError);
-MM_DEF_BASIC_EXCEPTION(UnimplementedCloneException);
-MM_DEF_BASIC_EXCEPTION(UnimplementedDestroyException);
+MM_DEF_BASIC_EXCEPTION(InstallingFailed);
+
+MM_DEF_BASIC_EXCEPTION(UnimplementedClone);
+MM_DEF_BASIC_EXCEPTION(UnimplementedDestroy);
+
 MM_DEF_BASIC_EXCEPTION(UnknownBodyType);
-MM_DEF_BASIC_EXCEPTION(DyPropertyCaseException)
-MM_DEF_BASIC_EXCEPTION(DyPropertyReadException)
-MM_DEF_BASIC_EXCEPTION(DyPropertyWriteException)
-MM_DEF_BASIC_EXCEPTION(UnregisteredBodyType)
+
+MM_DEF_BASIC_EXCEPTION(PropertyCaseFailed)
+MM_DEF_BASIC_EXCEPTION(PropertyReadFailed)
+MM_DEF_BASIC_EXCEPTION(PropertyWriteFailed)
+MM_DEF_BASIC_EXCEPTION(PropertyNotFound)
+MM_DEF_BASIC_EXCEPTION(PropertyHelperParserError)
+MM_DEF_BASIC_EXCEPTION(PropertyHelperParserNotFound)
+
+MM_DEF_BASIC_EXCEPTION(ClassFactoryCreateObjectFailed)
+
+MM_DEF_BASIC_EXCEPTION(SpellbookLoaderLoadObjectFailed)
+MM_DEF_BASIC_EXCEPTION(SpellbookLoaderLoadTimelineFailed)
+MM_DEF_BASIC_EXCEPTION(SpellbookLoaderLoadSpellbookFailed)
 
 MM_END

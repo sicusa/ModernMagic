@@ -130,11 +130,6 @@ protected: // 引擎消息
 			}
 		}
 
-		return true;
-	}
-
-	fBool OnRender(fDouble ElapsedTime, f2dFPSController* pFPSController)
-	{
 		if (m_paused) {
 			return true;
 		}
@@ -156,11 +151,20 @@ protected: // 引擎消息
 
 		theMMEngine.Update(ElapsedTime);
 
+		return true;
+	}
+
+	fBool OnRender(fDouble ElapsedTime, f2dFPSController* pFPSController)
+	{
+		if (m_paused) {
+			return true;
+		}
+
 		// 作图
 		m_pDev->Clear(0xFF000000);
 
 		m_pGraph2D->Begin();
-
+		
 		for (auto each : theMMBodyUpdater.GetObjects()) {
 			auto body = static_cast<Body*>(each);
 			auto &pos = body->GetPosition();
@@ -168,9 +172,10 @@ protected: // 引擎消息
 			auto rr = static_cast<Bullet*>(body)->GetScale();
 
 			m_sprite->SetColor(fcyColor(body->GetOpacity(), color.R, color.G, color.B));
-			m_sprite->Draw(m_pGraph2D, *reinterpret_cast<const fcyVec2*>(&pos), fcyVec2(rr, rr), body->GetRadian());
+			m_sprite->Draw(m_pGraph2D, *reinterpret_cast<const fcyVec2*>(&pos), fcyVec2(rr, rr)/*,
+				body->GetAngle() * MathUtil::Pi / 180.0f*/);
 		}
-
+		
 		m_pGraph2D->End();
 
 		// 绘制UI
@@ -180,6 +185,8 @@ protected: // 引擎消息
 public:
 	MyApp()
 	{
+		theMMEngine.SetWorldBox(BoundingBox(Vector2(-50, -50), Vector2(1024+50, 768+50)));
+
 		m_paused = false;
 		/*
 		m_role = theMMBodyUpdater.Add(new Bullet());
@@ -190,28 +197,58 @@ public:
 		*/
 		auto emitter = theMMActionUpdater.Add(new AnnularEmitter());
 
-		auto probody = Object::MakeShared(theMMClassFactory.CreateObject<Bullet>("Bullet"));
+		emitter->SetWayNumber(8);
+		emitter->SetInterval(0.01f);
+		emitter->SetEmittedNumber(-1);
 
-		theMMPropertyHelper.SetPropertyByString(probody.get(), "Speed",    "100.0");
-		theMMPropertyHelper.SetPropertyByString(probody.get(), "Color",    "0 0 255");
-		theMMPropertyHelper.SetPropertyByString(probody.get(), "Position", "512 384");
-		theMMPropertyHelper.SetPropertyByString(probody.get(), "Opacity",  "0.5");
-		theMMPropertyHelper.SetPropertyByString(probody.get(), "Radius",   "20");
-		theMMPropertyHelper.SetPropertyByString(probody.get(), "Scale",	   "1");
-		theMMPropertyHelper.SetPropertyByString(probody.get(), "IsDestoryWhenTimelineEnd", "true");
+		MM_TRY {
+			theMMSpellbookLoader.LoadObject(
+				"<Bullet \
+					Name=\"ProBody\"			\
+					Speed=\"100\"				\
+					Position=\"Center\"			\
+					Opacity=\"0.0\"				\
+					Color=\"Blue\"				\
+					Radius=\"20\"				\
+					Scale=\"2\"					\
+					AngleAddition=\"45\"		\
+					IsDestroyWhenTimelineEnd=\"true\"\
+				/>							\
+				"
+			);
+			theMMSpellbookLoader.LoadSpellbookFromFile("Resources/Scripts/Test.spellbook.xml");
+		}
+		MM_CATCH(Exception &e) {
+			cerr << e.str() << endl;
+			cin.get();
+			return;
+		}
 
+		auto probody = Object::MakeShared(
+			static_cast<Bullet*>(
+				theMMNamedObjects["ProBody"]
+			)
+		);
+		emitter->SetPrototype(probody);
+
+		String str;
+		theMMPropertyHelper.ToString(str, probody.get(), "Color");
+		cout << str << endl;
+		
+		// BodyTimeline
 		auto btl = probody->AppliedTimeline();
-		btl->Add(new ActionSleep(4.5f));
 
+		auto bag = btl->Add(new ActionGroup());
+		bag->Add(new AnimateTo<float>("Scale", 1.0f, 0.2f, IF_SineOut));
+		bag->Add(new AnimateTo<float>("Opacity", 0.5f, 0.2f, IF_SineOut));
+
+		btl->Add(new ActionSleep(4.5f));
+		
 		auto ag = btl->Add(new ActionGroup());
 		ag->Add(new AnimateTo<float>("Scale", 2.0f, 0.5f, IF_ExponentialOut));
 		ag->Add(new AnimateTo<float>("Opacity", 0.0f, 0.5f, IF_ExponentialOut));
-
-		emitter->SetPrototype(probody);
-		emitter->SetWayNumber(8);
-		emitter->SetInterval(0.18f);
-		emitter->SetEmittedNumber(-1);
-
+		
+		// theMMActionUpdater
 		auto emitterBodyTL = theMMActionUpdater.Add(new LoopTimeline(-1));
 		emitterBodyTL->SetBindingObject(probody.get());
 
@@ -225,9 +262,16 @@ public:
 		emitterBodyTL2->Add(new AnimateTo<Color>("Color", Colors::Blue, 2.0f, IF_Smooth));
 		emitterBodyTL2->Add(new AnimateTo<Color>("Color", Colors::Green, 2.0f, IF_Smooth));
 
+		auto emitterTL = theMMActionUpdater.Add(new LoopTimeline(-1));
+		emitterTL->SetBindingObject(emitter);
+		
+		emitterTL->Add(new AnimateTo<float>("Radius", 200.0f, 2.0f, IF_SineOut));
+		emitterTL->Add(new AnimateTo<float>("Radius", 0.f, 2.0f, IF_SineOut));
+		
+		// emitter 2
 		auto emitter2 = theMMActionUpdater.Add(new BodyEmitter());
 
-		emitter2->SetInterval(0.01f);
+		emitter2->SetInterval(0.1f);
 		emitter2->SetEmittedNumber(-1);
 		emitter2->SetPrototype(probody);
 
@@ -242,8 +286,8 @@ public:
 			body->SetSpeed(MathUtil::RandomFloatInRange(100.f, 200.f));
 			body->SetOpacity(MathUtil::RandomFloatInRange(0.2f, 0.8f));
 			body->SetAngle(MathUtil::RandomFloat(360.0f));
-
-			ActionSleep *as = static_cast<ActionSleep*>(body->GetAppliedTimeline()->GetActions()[0]);
+			
+			ActionSleep *as = static_cast<ActionSleep*>(body->GetAppliedTimeline()->GetActions()[1]);
 			as->SetDelayTime(2.0f);
 		});
 		
@@ -260,8 +304,6 @@ public:
 		theMMActionUpdater.Add(rb);
 		}
 		*/
-
-		theMMEngine.SetWorldBox(BoundingBox(Vector2(-50, -50), Vector2(1024+50, 768+50)));
 
 		struct : public f2dInitialErrListener {
 			void OnErr(fuInt TimeTick, fcStr Src, fcStr Desc)
@@ -299,8 +341,10 @@ public:
 		// 加载资源
 		{
 			// 映射本地文件夹DemoRes到节点Res
-			m_pFileSys->LoadRealPath(L"Res", L"DemoRes\\");
-			m_pFileSys->LoadRealPath(L"Simple", L"DemoRes\\Simple\\");
+			m_pFileSys->LoadRealPath(L"Resources", L"Resources\\");
+			m_pFileSys->LoadRealPath(L"UI", L"Resources\\UI");
+			m_pFileSys->LoadRealPath(L"Fonts", L"Resources\\Fonts");
+			m_pFileSys->LoadRealPath(L"Images", L"Resources\\Images");
 
 			// 创建渲染器
 			m_pDev->CreateGraphics2D(0, 0, &m_pGraph2D);
@@ -319,13 +363,14 @@ public:
 			{
 				m_pRootUIPage.DirectSet(new fuiPage(L"Main", m_pRenderer, m_pGraph2D));
 
-				m_pRootUIPage->GetControlStyle()->LoadResFromFile(m_pFileSys->GetStream(L"Simple\\Style.xml"), &tProvider);
-				m_pRootUIPage->LoadLayoutFromFile(m_pFileSys->GetStream(L"Simple\\Layout.xml"));
+				m_pRootUIPage->GetControlStyle()->LoadResFromFile(m_pFileSys->GetStream(L"UI\\UIStyle.xml"), &tProvider);
+				m_pRootUIPage->LoadLayoutFromFile(m_pFileSys->GetStream(L"UI\\Game.Layout.xml"));
 				m_pRootUIPage->SetDebugMode(false);
-				m_label = static_cast<fuiLabel*>(m_pRootUIPage->FindControl(L"TestLabel"));
+				m_label = static_cast<fuiLabel*>(m_pRootUIPage->FindControl(L"BulletNumber"));
+				MM_ASSERT(m_label);
 
 				auto result = m_pDev->CreateTextureFromStream (
-					m_pFileSys->GetStream(L"Res\\Images\\bulblu.png"),
+					m_pFileSys->GetStream(L"Images\\bulblu.png"),
 					0, 0, false, true, &m_texture
 					);
 				if (FCYFAILED(result))

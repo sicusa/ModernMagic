@@ -15,7 +15,7 @@
 	} \
 	virtual void SetType(const String &name) override { \
 		auto p = TypeManager().GetType(name); \
-		if (p == nullptr) throw UnregisteredBodyType(typeid(_className).name()); \
+		if (p == nullptr) throw UnknownBodyType(typeid(_className).name()); \
 		this->SetTypePtr(p); return; \
 	} \
 	static BodyTypeManager<IBodyType<_className>> &TypeManager() { \
